@@ -143,6 +143,7 @@ if __name__ == "__main__":
                 features.SaveLastScan.execute()
 
             iter += 1
+            break
             input("Press Enter to continue...")
             print("Continuing...")
             time.sleep(1)
@@ -194,5 +195,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"An error occurred: {e}")
     finally:
-        rwsCl.logout()
+        # rwsCl.logout()
         ia.destroy()

@@ -4,7 +4,7 @@ from .exceptions import RWSException
 import threading
 import time
 from datetime import datetime, timedelta
-
+import atexit
 
 requests.packages.urllib3.disable_warnings(
     requests.packages.urllib3.exceptions.InsecureRequestWarning
@@ -12,7 +12,7 @@ requests.packages.urllib3.disable_warnings(
 
 class RWSClient:
 
-    def __init__(self, host, username, password, port=80, keepalive=True, keepalive_interval=180):
+    def __init__(self, host, username, password, port=80, keepalive=True, keepalive_interval=180, auto_cleanup=True):
         proto = "https"
         self.base_url = f"{proto}://{host}:{port}"
         self.session = requests.Session()
@@ -22,16 +22,43 @@ class RWSClient:
         self.header_typ = {'Accept': 'application/hal+json;v=2.0', 
                        'Content-Type': 'application/x-www-form-urlencoded;v=2.0'}
         self.header_opt = {'Accept': 'application/xhtml+xml;v=2.0'}
-        
+        self.keepalive = keepalive
         # Keepalive setup
-        if keepalive:
+        if self.keepalive:
             self.keepalive_interval = keepalive_interval  # seconds (3 min default)
             self.keepalive_thread: threading.Thread = None
             self.keepalive_running = False
             self.last_activity = datetime.now()
             self._lock = threading.Lock()
+        
+        self._auto_cleanup = auto_cleanup
+        self._cleanup_registered = False
 
+        # Register cleanup handlers if enabled
+        if auto_cleanup:
+            self._register_cleanup_handlers()
 
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit"""
+        print(f"RWSClient.__exit__ called - Exception: {exc_type is not None}")
+        
+        # Cleanup resources
+        print("RWS Auto-logout triggered...")
+        self.logout()
+
+        # Log exception if any
+        if exc_type is not None:
+            print(f"Exception in RWSClient: {exc_type.__name__}: {exc_val}")
+            
+        return False  # Propagate exception
+    
+
+    def _register_cleanup_handlers(self):
+        """Register cleanup handlers for unexpected termination"""
+        if not self._cleanup_registered:
+            # Atexit handler
+            atexit.register(self.logout)
+            print("RWSClient cleanup handlers registered")
 
     def login(self):
         url = f"{self.base_url}"
@@ -42,6 +69,8 @@ class RWSClient:
         
         self.start_keepalive()
         return resp.status_code
+    
+
     
     def logout(self):
 
@@ -177,7 +206,7 @@ class RWSClient:
         url = f"{self.base_url}{path}"
 
         self._update_activity()
-        
+
         resp = self.session.options(url, headers=self.header_opt)
         #print(f"OPTIONS status code: {resp.status_code}")
         if resp.status_code not in (200, 201, 204):
