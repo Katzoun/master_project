@@ -1,0 +1,4 @@
+#.vscode
+/.vscode/
+/frames
+/utils/__pycache__/
