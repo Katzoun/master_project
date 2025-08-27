@@ -1,11 +1,16 @@
 import struct
+import numpy as np
+import os
+import sys
 import time
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from utils.harvester_singleton import get_harvester, get_image_acquisition
 from  utils.rwsprovider import RWSClient
 from utils.rwswrappers import RWSWrappers
 import utils.utilities as utilities
-import numpy as np
-import os
+
 
 
 robotIP = "192.168.0.37"
@@ -40,7 +45,7 @@ if __name__ == "__main__":
         clock = rwsWrap.get_clock()
         #print("Clock:", clock)
         #load calibration matrix from calib_mat.txt
-        calib_mat = np.loadtxt("calib_mat2.txt")
+        calib_mat = np.loadtxt("conf/calib_mat2.txt")
         print("Calibration Matrix Loaded:\n", calib_mat)
         calib_pose = utilities.tf_matrix_to_pose_vector(calib_mat, use_euler=True)
         calib_pose_abb = utilities.tf_matrix_to_pose_vector(calib_mat)
