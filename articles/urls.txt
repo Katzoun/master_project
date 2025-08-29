@@ -1,0 +1,2 @@
+https://www.automate.org/robotics/industry-insights/ros-industrial-for-real-world-solutions
+https://rosindustrial.org/scan-n-plan

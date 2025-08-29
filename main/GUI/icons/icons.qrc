@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>UAI_bw_CMYK_EN.svg</file>
+    <file>UAI_bw_CMYK_EN.png</file>
+  </qresource>
+</RCC>

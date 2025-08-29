@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>1000</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>FreeSans</family>
+    <pointsize>13</pointsize>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>Scan3D</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>GroupBox</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="icons/icons.qrc">:/Icons/UAI_bw_CMYK_EN.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_2">
+           <property name="styleSheet">
+            <string notr="true">QToolButton{
+
+	font: 700 14pt &quot;Sans&quot;;
+
+    background-color: rgb(0, 0, 0);
+    color: #FFFFFF;
+    border-radius: 18px;
+    border: 3px solid rgb(0, 0,0);   
+}
+
+QToolButton:hover {
+    background: rgb(25, 25, 25);  /* původní barva &lt;span&gt; */
+    border: 3px solid rgb(70, 70, 70);
+      /* aby se po přidání borderu nezvětšilo tlačítko */
+}
+
+/* Aktivní stav (klik) – mírně zesvětlíme okraj */
+QToolButton:pressed {
+    background-color:  rgb(70, 70, 70); 
+    border: 3px solid  rgb(70, 70, 70); 
+
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons/icons.qrc">
+             <normaloff>:/Icons/UAI_bw_CMYK_EN.png</normaloff>:/Icons/UAI_bw_CMYK_EN.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton">
+           <property name="styleSheet">
+            <string notr="true">QToolButton{
+
+	font: 700 14pt &quot;Sans&quot;;
+
+    background-color: rgb(0, 0, 0);
+    color: #FFFFFF;
+    border-radius: 18px;
+    border: 3px solid rgb(0, 0,0);   
+}
+
+QToolButton:hover {
+    background: rgb(25, 25, 25);  /* původní barva &lt;span&gt; */
+    border: 3px solid rgb(70, 70, 70);
+      /* aby se po přidání borderu nezvětšilo tlačítko */
+}
+
+/* Aktivní stav (klik) – mírně zesvětlíme okraj */
+QToolButton:pressed {
+    background-color:  rgb(70, 70, 70); 
+    border: 3px solid  rgb(70, 70, 70); 
+
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons/icons.qrc">
+             <normaloff>:/Icons/UAI_bw_CMYK_EN.png</normaloff>:/Icons/UAI_bw_CMYK_EN.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_3">
+           <property name="styleSheet">
+            <string notr="true">QToolButton{
+
+	font: 700 14pt &quot;Sans&quot;;
+
+    background-color: rgb(0, 0, 0);
+    color: #FFFFFF;
+    border-radius: 18px;
+    border: 3px solid rgb(0, 0,0);   
+}
+
+QToolButton:hover {
+    background: rgb(25, 25, 25);  /* původní barva &lt;span&gt; */
+    border: 3px solid rgb(70, 70, 70);
+      /* aby se po přidání borderu nezvětšilo tlačítko */
+}
+
+/* Aktivní stav (klik) – mírně zesvětlíme okraj */
+QToolButton:pressed {
+    background-color:  rgb(70, 70, 70); 
+    border: 3px solid  rgb(70, 70, 70); 
+
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons/icons.qrc">
+             <normaloff>:/Icons/UAI_bw_CMYK_EN.png</normaloff>:/Icons/UAI_bw_CMYK_EN.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_4">
+           <property name="styleSheet">
+            <string notr="true">QToolButton{
+
+	font: 700 14pt &quot;Sans&quot;;
+
+    background-color: rgb(0, 0, 0);
+    color: #FFFFFF;
+    border-radius: 18px;
+    border: 3px solid rgb(0, 0,0);   
+}
+
+QToolButton:hover {
+    background: rgb(25, 25, 25);  /* původní barva &lt;span&gt; */
+    border: 3px solid rgb(70, 70, 70);
+      /* aby se po přidání borderu nezvětšilo tlačítko */
+}
+
+/* Aktivní stav (klik) – mírně zesvětlíme okraj */
+QToolButton:pressed {
+    background-color:  rgb(70, 70, 70); 
+    border: 3px solid  rgb(70, 70, 70); 
+
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons/icons.qrc">
+             <normaloff>:/Icons/UAI_bw_CMYK_EN.png</normaloff>:/Icons/UAI_bw_CMYK_EN.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icons/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>
