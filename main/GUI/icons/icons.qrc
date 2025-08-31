@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>dashboard-monitor.png</file>
     <file>add-document.png</file>
     <file>add-folder.png</file>
     <file>aperture.png</file>
