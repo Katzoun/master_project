@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>SpraySense</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(200, 200, 200);
@@ -134,7 +134,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/menu.png</normaloff>:/Icons/menu.png</iconset>
            </property>
            <property name="iconSize">
@@ -154,7 +154,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/dashboard-monitor.png</normaloff>:/Icons/dashboard-monitor.png</iconset>
            </property>
            <property name="iconSize">
@@ -177,7 +177,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/circle-nodes.png</normaloff>:/Icons/circle-nodes.png</iconset>
            </property>
            <property name="iconSize">
@@ -200,7 +200,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/edit (1).png</normaloff>:/Icons/edit (1).png</iconset>
            </property>
            <property name="iconSize">
@@ -223,7 +223,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/camera.png</normaloff>:/Icons/camera.png</iconset>
            </property>
            <property name="iconSize">
@@ -280,7 +280,7 @@ QPushButton:checked {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="icons/icons.qrc">
+          <iconset resource="../../main/GUI/icons/icons.qrc">
            <normaloff>:/Icons/settings.png</normaloff>:/Icons/settings.png</iconset>
          </property>
          <property name="iconSize">
@@ -303,7 +303,7 @@ QPushButton:checked {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="icons/icons.qrc">:/Icons/vutlogo.png</pixmap>
+          <pixmap resource="../../main/GUI/icons/icons.qrc">:/Icons/vutlogo.png</pixmap>
          </property>
         </widget>
        </item>
@@ -403,7 +403,7 @@ QPushButton:pressed {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/menu.png</normaloff>:/Icons/menu.png</iconset>
            </property>
            <property name="iconSize">
@@ -423,7 +423,7 @@ QPushButton:pressed {
             <string>Dashboard</string>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/dashboard-monitor.png</normaloff>:/Icons/dashboard-monitor.png</iconset>
            </property>
            <property name="iconSize">
@@ -449,7 +449,7 @@ QPushButton:pressed {
             <string>Setup</string>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/circle-nodes.png</normaloff>:/Icons/circle-nodes.png</iconset>
            </property>
            <property name="iconSize">
@@ -472,7 +472,7 @@ QPushButton:pressed {
             <string>Edit</string>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/edit (1).png</normaloff>:/Icons/edit (1).png</iconset>
            </property>
            <property name="iconSize">
@@ -495,7 +495,7 @@ QPushButton:pressed {
             <string>PushButton</string>
            </property>
            <property name="icon">
-            <iconset resource="icons/icons.qrc">
+            <iconset resource="../../main/GUI/icons/icons.qrc">
              <normaloff>:/Icons/camera.png</normaloff>:/Icons/camera.png</iconset>
            </property>
            <property name="iconSize">
@@ -552,7 +552,7 @@ QPushButton:pressed {
           <string>Settings</string>
          </property>
          <property name="icon">
-          <iconset resource="icons/icons.qrc">
+          <iconset resource="../../main/GUI/icons/icons.qrc">
            <normaloff>:/Icons/settings.png</normaloff>:/Icons/settings.png</iconset>
          </property>
          <property name="iconSize">
@@ -575,7 +575,7 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="icons/icons.qrc">:/Icons/uailogofull.png</pixmap>
+          <pixmap resource="../../main/GUI/icons/icons.qrc">:/Icons/uailogofull.png</pixmap>
          </property>
         </widget>
        </item>
@@ -627,7 +627,7 @@ QPushButton:pressed {
           <string notr="true">background-color: rgb(119, 118, 123);</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_capture">
           <widget class="QLabel" name="label_6">
@@ -671,6 +671,16 @@ QPushButton:pressed {
            </property>
            <property name="text">
             <string>dashboards</string>
+           </property>
+          </widget>
+          <widget class="QtInteractor" name="widget" native="true">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>140</y>
+             <width>301</width>
+             <height>261</height>
+            </rect>
            </property>
           </widget>
          </widget>
@@ -727,8 +737,16 @@ QPushButton:pressed {
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtInteractor</class>
+   <extends>QWidget</extends>
+   <header>qtinteractor.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="icons/icons.qrc"/>
+  <include location="../../main/GUI/icons/icons.qrc"/>
  </resources>
  <connections>
   <connection>

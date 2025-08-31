@@ -18,7 +18,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
     QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
     QStackedWidget, QVBoxLayout, QWidget)
-import app_spraysense.GUI.icons_rc
+
+from pyvistaqt import QtInteractor
+import GUI.icons_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -390,6 +392,9 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.page_dashboard)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(270, 470, 67, 17))
+        self.widget = QtInteractor(self.page_dashboard)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(210, 140, 301, 261))
         self.stackedWidget.addWidget(self.page_dashboard)
         self.page_settings = QWidget()
         self.page_settings.setObjectName(u"page_settings")
@@ -435,14 +440,14 @@ class Ui_MainWindow(object):
         self.pb_settings_expanded.toggled.connect(self.pb_settings_small.setChecked)
         self.pb_settings_small.toggled.connect(self.pb_settings_expanded.setChecked)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"SpraySense", None))
         self.pb_menu_small.setText("")
         self.pb_dashboard_small.setText("")
         self.pb_setup_small.setText("")
