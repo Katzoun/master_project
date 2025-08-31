@@ -1,3 +1,4 @@
+from __future__ import annotations
 import threading
 import os
 import sys
@@ -48,6 +49,9 @@ class SharedData:
 
         self.create_dirs()
 
+        #create logger
+        self.logger = self.create_logger()
+
     def create_dirs(self) -> None:
         """Creates directories for logs, scans, paths ... if they don't exist."""
         for dir_path in [self.log_directory, self.scan_directory, self.path_directory]:
@@ -91,9 +95,17 @@ class SharedData:
         logger.addHandler(console_handler)
 
         return logger
-    
+
+    def get_logger(self) -> logging.Logger:
+        """
+        Returns the shared logger instance.
+        Returns:
+            logging.Logger: The shared logger instance.
+        """
+        return self.logger
+
     @classmethod
-    def get_instance(cls) -> 'SharedData':
+    def get_instance(cls) -> SharedData:
         """
         Returns:
             SharedData: The singleton instance of SharedData    

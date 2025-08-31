@@ -1,13 +1,13 @@
 from PySide6.QtWidgets import QWidget, QMainWindow, QFileDialog
 import os
 import sys
-from app_scan.GUI.ui_mainwin import Ui_MainWindow
+from app_spraysense.GUI.ui_mainwin import Ui_MainWindow
 
-class MainWindowWithSideBar(QMainWindow, Ui_MainWindow):
+class SpraySenseMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle("My Application")
+        # self.setWindowTitle("My Application")
 
         self.sidebar_expanded.setHidden(True)
 

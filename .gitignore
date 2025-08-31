@@ -1,6 +1,7 @@
 #.vscode
 /.vscode/
 /frames
-/main/__pycache__/
-/main/GUI/__pycache__/
+/app_spraysense/__pycache__/
+/app_spraysense/GUI/__pycache__/
 /utils/__pycache__/
+/venv/*
