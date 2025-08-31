@@ -1,6 +1,19 @@
 <RCC>
   <qresource prefix="Icons">
-    <file>UAI_bw_CMYK_EN.svg</file>
-    <file>UAI_bw_CMYK_EN.png</file>
+    <file>add-document.png</file>
+    <file>add-folder.png</file>
+    <file>aperture.png</file>
+    <file>apps.png</file>
+    <file>circle-nodes.png</file>
+    <file>camera.png</file>
+    <file>edit (1).png</file>
+    <file>globe.png</file>
+    <file>icons.qrc</file>
+    <file>menu.png</file>
+    <file>refresh.png</file>
+    <file>settings.png</file>
+    <file>menu.png</file>
+    <file>vutlogo.png</file>
+    <file>uailogofull.png</file>
   </qresource>
 </RCC>
