@@ -19,14 +19,15 @@ from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
     QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
     QStackedWidget, QVBoxLayout, QWidget)
 
+from indicator import Indicator
 from pyvistaqt import QtInteractor
-import GUI.icons_rc
+import icons_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1600, 1000)
+        MainWindow.resize(1600, 800)
         MainWindow.setMinimumSize(QSize(1600, 800))
         MainWindow.setStyleSheet(u"background-color: rgb(200, 200, 200);\n"
 "")
@@ -71,13 +72,13 @@ class Ui_MainWindow(object):
 "    border: 3px solid  rgb(120, 120, 120); \n"
 "\n"
 "}")
-        self.verticalLayout_3 = QVBoxLayout(self.sidebar_small)
-        self.verticalLayout_3.setSpacing(15)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(9, 9, 9, 9)
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setSpacing(10)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout_sidebar_small = QVBoxLayout(self.sidebar_small)
+        self.verticalLayout_sidebar_small.setSpacing(15)
+        self.verticalLayout_sidebar_small.setObjectName(u"verticalLayout_sidebar_small")
+        self.verticalLayout_sidebar_small.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_pb_small = QVBoxLayout()
+        self.verticalLayout_pb_small.setSpacing(10)
+        self.verticalLayout_pb_small.setObjectName(u"verticalLayout_pb_small")
         self.pb_menu_small = QPushButton(self.sidebar_small)
         self.pb_menu_small.setObjectName(u"pb_menu_small")
         self.pb_menu_small.setStyleSheet(u"QPushButton{\n"
@@ -114,7 +115,7 @@ class Ui_MainWindow(object):
         self.pb_menu_small.setIconSize(QSize(25, 25))
         self.pb_menu_small.setCheckable(True)
 
-        self.verticalLayout.addWidget(self.pb_menu_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_menu_small)
 
         self.pb_dashboard_small = QPushButton(self.sidebar_small)
         self.pb_dashboard_small.setObjectName(u"pb_dashboard_small")
@@ -125,7 +126,7 @@ class Ui_MainWindow(object):
         self.pb_dashboard_small.setCheckable(True)
         self.pb_dashboard_small.setAutoExclusive(True)
 
-        self.verticalLayout.addWidget(self.pb_dashboard_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_dashboard_small)
 
         self.pb_setup_small = QPushButton(self.sidebar_small)
         self.pb_setup_small.setObjectName(u"pb_setup_small")
@@ -136,7 +137,7 @@ class Ui_MainWindow(object):
         self.pb_setup_small.setCheckable(True)
         self.pb_setup_small.setAutoExclusive(True)
 
-        self.verticalLayout.addWidget(self.pb_setup_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_setup_small)
 
         self.pb_edit_small = QPushButton(self.sidebar_small)
         self.pb_edit_small.setObjectName(u"pb_edit_small")
@@ -147,7 +148,7 @@ class Ui_MainWindow(object):
         self.pb_edit_small.setCheckable(True)
         self.pb_edit_small.setAutoExclusive(True)
 
-        self.verticalLayout.addWidget(self.pb_edit_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_edit_small)
 
         self.pb_capture_small = QPushButton(self.sidebar_small)
         self.pb_capture_small.setObjectName(u"pb_capture_small")
@@ -158,7 +159,7 @@ class Ui_MainWindow(object):
         self.pb_capture_small.setCheckable(True)
         self.pb_capture_small.setAutoExclusive(True)
 
-        self.verticalLayout.addWidget(self.pb_capture_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_capture_small)
 
         self.pb_unknown1_small = QPushButton(self.sidebar_small)
         self.pb_unknown1_small.setObjectName(u"pb_unknown1_small")
@@ -166,14 +167,14 @@ class Ui_MainWindow(object):
         self.pb_unknown1_small.setCheckable(True)
         self.pb_unknown1_small.setAutoExclusive(True)
 
-        self.verticalLayout.addWidget(self.pb_unknown1_small)
+        self.verticalLayout_pb_small.addWidget(self.pb_unknown1_small)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout)
+        self.verticalLayout_sidebar_small.addLayout(self.verticalLayout_pb_small)
 
         self.sidebar_spacer_expanded_2 = QSpacerItem(20, 465, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_3.addItem(self.sidebar_spacer_expanded_2)
+        self.verticalLayout_sidebar_small.addItem(self.sidebar_spacer_expanded_2)
 
         self.pb_settings_small = QPushButton(self.sidebar_small)
         self.pb_settings_small.setObjectName(u"pb_settings_small")
@@ -184,13 +185,13 @@ class Ui_MainWindow(object):
         self.pb_settings_small.setCheckable(True)
         self.pb_settings_small.setAutoExclusive(True)
 
-        self.verticalLayout_3.addWidget(self.pb_settings_small)
+        self.verticalLayout_sidebar_small.addWidget(self.pb_settings_small)
 
         self.label_8 = QLabel(self.sidebar_small)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setPixmap(QPixmap(u":/Icons/vutlogo.png"))
 
-        self.verticalLayout_3.addWidget(self.label_8)
+        self.verticalLayout_sidebar_small.addWidget(self.label_8)
 
 
         self.gridLayout.addWidget(self.sidebar_small, 0, 0, 1, 1)
@@ -231,13 +232,13 @@ class Ui_MainWindow(object):
 "\n"
 "}\n"
 "")
-        self.verticalLayout_4 = QVBoxLayout(self.sidebar_expanded)
-        self.verticalLayout_4.setSpacing(15)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(-1, -1, 0, -1)
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setSpacing(10)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_sidebar_expanded = QVBoxLayout(self.sidebar_expanded)
+        self.verticalLayout_sidebar_expanded.setSpacing(15)
+        self.verticalLayout_sidebar_expanded.setObjectName(u"verticalLayout_sidebar_expanded")
+        self.verticalLayout_sidebar_expanded.setContentsMargins(-1, -1, 0, -1)
+        self.verticalLayout_pb_expanded = QVBoxLayout()
+        self.verticalLayout_pb_expanded.setSpacing(10)
+        self.verticalLayout_pb_expanded.setObjectName(u"verticalLayout_pb_expanded")
         self.pb_menu_expanded = QPushButton(self.sidebar_expanded)
         self.pb_menu_expanded.setObjectName(u"pb_menu_expanded")
         self.pb_menu_expanded.setStyleSheet(u"QPushButton{\n"
@@ -274,7 +275,7 @@ class Ui_MainWindow(object):
         self.pb_menu_expanded.setIconSize(QSize(25, 25))
         self.pb_menu_expanded.setCheckable(True)
 
-        self.verticalLayout_2.addWidget(self.pb_menu_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_menu_expanded)
 
         self.pb_dashboard_expanded = QPushButton(self.sidebar_expanded)
         self.pb_dashboard_expanded.setObjectName(u"pb_dashboard_expanded")
@@ -284,7 +285,7 @@ class Ui_MainWindow(object):
         self.pb_dashboard_expanded.setChecked(True)
         self.pb_dashboard_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_2.addWidget(self.pb_dashboard_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_dashboard_expanded)
 
         self.pb_setup_expanded = QPushButton(self.sidebar_expanded)
         self.pb_setup_expanded.setObjectName(u"pb_setup_expanded")
@@ -293,7 +294,7 @@ class Ui_MainWindow(object):
         self.pb_setup_expanded.setCheckable(True)
         self.pb_setup_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_2.addWidget(self.pb_setup_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_setup_expanded)
 
         self.pb_edit_expanded = QPushButton(self.sidebar_expanded)
         self.pb_edit_expanded.setObjectName(u"pb_edit_expanded")
@@ -302,7 +303,7 @@ class Ui_MainWindow(object):
         self.pb_edit_expanded.setCheckable(True)
         self.pb_edit_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_2.addWidget(self.pb_edit_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_edit_expanded)
 
         self.pb_capture_expanded = QPushButton(self.sidebar_expanded)
         self.pb_capture_expanded.setObjectName(u"pb_capture_expanded")
@@ -311,7 +312,7 @@ class Ui_MainWindow(object):
         self.pb_capture_expanded.setCheckable(True)
         self.pb_capture_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_2.addWidget(self.pb_capture_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_capture_expanded)
 
         self.pb_unknown1_expanded = QPushButton(self.sidebar_expanded)
         self.pb_unknown1_expanded.setObjectName(u"pb_unknown1_expanded")
@@ -319,14 +320,14 @@ class Ui_MainWindow(object):
         self.pb_unknown1_expanded.setCheckable(True)
         self.pb_unknown1_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_2.addWidget(self.pb_unknown1_expanded)
+        self.verticalLayout_pb_expanded.addWidget(self.pb_unknown1_expanded)
 
 
-        self.verticalLayout_4.addLayout(self.verticalLayout_2)
+        self.verticalLayout_sidebar_expanded.addLayout(self.verticalLayout_pb_expanded)
 
         self.sidebar_spacer_expanded = QSpacerItem(20, 465, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_4.addItem(self.sidebar_spacer_expanded)
+        self.verticalLayout_sidebar_expanded.addItem(self.sidebar_spacer_expanded)
 
         self.pb_settings_expanded = QPushButton(self.sidebar_expanded)
         self.pb_settings_expanded.setObjectName(u"pb_settings_expanded")
@@ -335,42 +336,171 @@ class Ui_MainWindow(object):
         self.pb_settings_expanded.setCheckable(True)
         self.pb_settings_expanded.setAutoExclusive(True)
 
-        self.verticalLayout_4.addWidget(self.pb_settings_expanded)
+        self.verticalLayout_sidebar_expanded.addWidget(self.pb_settings_expanded)
 
         self.label_7 = QLabel(self.sidebar_expanded)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setPixmap(QPixmap(u":/Icons/uailogofull.png"))
 
-        self.verticalLayout_4.addWidget(self.label_7)
+        self.verticalLayout_sidebar_expanded.addWidget(self.label_7)
 
 
         self.gridLayout.addWidget(self.sidebar_expanded, 0, 1, 1, 1)
 
         self.main_okno = QWidget(self.centralwidget)
         self.main_okno.setObjectName(u"main_okno")
-        self.verticalLayout_5 = QVBoxLayout(self.main_okno)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_main_okno = QVBoxLayout(self.main_okno)
+        self.verticalLayout_main_okno.setObjectName(u"verticalLayout_main_okno")
+        self.verticalLayout_main_okno.setContentsMargins(-1, 0, -1, -1)
         self.top_bar = QWidget(self.main_okno)
         self.top_bar.setObjectName(u"top_bar")
-        self.horizontalLayout = QHBoxLayout(self.top_bar)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton_13 = QPushButton(self.top_bar)
-        self.pushButton_13.setObjectName(u"pushButton_13")
-        self.pushButton_13.setCheckable(True)
-
-        self.horizontalLayout.addWidget(self.pushButton_13)
-
-        self.pushButton_14 = QPushButton(self.top_bar)
-        self.pushButton_14.setObjectName(u"pushButton_14")
-
-        self.horizontalLayout.addWidget(self.pushButton_14)
-
+        self.horizontalLayout_top_bar = QHBoxLayout(self.top_bar)
+        self.horizontalLayout_top_bar.setObjectName(u"horizontalLayout_top_bar")
+        self.horizontalLayout_top_bar.setContentsMargins(0, 0, 0, 0)
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer)
+        self.horizontalLayout_top_bar.addItem(self.horizontalSpacer)
+
+        self.status_indicators = QWidget(self.top_bar)
+        self.status_indicators.setObjectName(u"status_indicators")
+        self.status_indicators.setMinimumSize(QSize(600, 60))
+        self.status_indicators.setStyleSheet(u"QWidget#status_indicators{\n"
+"background-color: rgb(30, 30, 30);\n"
+"border-bottom-left-radius:15px;\n"
+"border-bottom-right-radius:15px;\n"
+"border-top-left-radius:0px;\n"
+"border-top-right-radius:0px;\n"
+"}\n"
+"\n"
+"QWidget{\n"
+"background-color: rgb(200, 200, 200);\n"
+"border-radius:15px;\n"
+"color:rgb(0, 0, 0)\n"
+"}\n"
+"")
+        self.horizontalLayout = QHBoxLayout(self.status_indicators)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.robot_status_widget = QWidget(self.status_indicators)
+        self.robot_status_widget.setObjectName(u"robot_status_widget")
+        self.horizontalLayout_ind_robot = QHBoxLayout(self.robot_status_widget)
+        self.horizontalLayout_ind_robot.setObjectName(u"horizontalLayout_ind_robot")
+        self.robot_status_label = QLabel(self.robot_status_widget)
+        self.robot_status_label.setObjectName(u"robot_status_label")
+
+        self.horizontalLayout_ind_robot.addWidget(self.robot_status_label)
+
+        self.robot_indicator = Indicator(self.robot_status_widget)
+        self.robot_indicator.setObjectName(u"robot_indicator")
+        self.robot_indicator.setMinimumSize(QSize(25, 25))
+        self.robot_indicator.setMaximumSize(QSize(25, 25))
+
+        self.horizontalLayout_ind_robot.addWidget(self.robot_indicator)
 
 
-        self.verticalLayout_5.addWidget(self.top_bar)
+        self.horizontalLayout.addWidget(self.robot_status_widget)
+
+        self.camera_status_widget = QWidget(self.status_indicators)
+        self.camera_status_widget.setObjectName(u"camera_status_widget")
+        self.horizontalLayout_ind_camera = QHBoxLayout(self.camera_status_widget)
+        self.horizontalLayout_ind_camera.setObjectName(u"horizontalLayout_ind_camera")
+        self.horizontalLayout_ind_camera.setContentsMargins(9, -1, -1, 9)
+        self.camera_status_label = QLabel(self.camera_status_widget)
+        self.camera_status_label.setObjectName(u"camera_status_label")
+
+        self.horizontalLayout_ind_camera.addWidget(self.camera_status_label)
+
+        self.camera_indicator = Indicator(self.camera_status_widget)
+        self.camera_indicator.setObjectName(u"camera_indicator")
+        self.camera_indicator.setMinimumSize(QSize(25, 25))
+        self.camera_indicator.setMaximumSize(QSize(25, 25))
+
+        self.horizontalLayout_ind_camera.addWidget(self.camera_indicator)
+
+
+        self.horizontalLayout.addWidget(self.camera_status_widget)
+
+        self.ros_backend_widget = QWidget(self.status_indicators)
+        self.ros_backend_widget.setObjectName(u"ros_backend_widget")
+        self.horizontalLayout_2 = QHBoxLayout(self.ros_backend_widget)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.ros_status_label = QLabel(self.ros_backend_widget)
+        self.ros_status_label.setObjectName(u"ros_status_label")
+
+        self.horizontalLayout_2.addWidget(self.ros_status_label)
+
+        self.ros_indicator = Indicator(self.ros_backend_widget)
+        self.ros_indicator.setObjectName(u"ros_indicator")
+        self.ros_indicator.setMinimumSize(QSize(25, 25))
+        self.ros_indicator.setMaximumSize(QSize(25, 25))
+
+        self.horizontalLayout_2.addWidget(self.ros_indicator)
+
+
+        self.horizontalLayout.addWidget(self.ros_backend_widget)
+
+        self.unused_status_widget = QWidget(self.status_indicators)
+        self.unused_status_widget.setObjectName(u"unused_status_widget")
+        self.horizontalLayout_3 = QHBoxLayout(self.unused_status_widget)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.unused_status_label = QLabel(self.unused_status_widget)
+        self.unused_status_label.setObjectName(u"unused_status_label")
+
+        self.horizontalLayout_3.addWidget(self.unused_status_label)
+
+        self.robot_status_indicator_4 = Indicator(self.unused_status_widget)
+        self.robot_status_indicator_4.setObjectName(u"robot_status_indicator_4")
+        self.robot_status_indicator_4.setMinimumSize(QSize(25, 25))
+        self.robot_status_indicator_4.setMaximumSize(QSize(25, 25))
+
+        self.horizontalLayout_3.addWidget(self.robot_status_indicator_4)
+
+
+        self.horizontalLayout.addWidget(self.unused_status_widget)
+
+        self.pushButton = QPushButton(self.status_indicators)
+        self.pushButton.setObjectName(u"pushButton")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setMinimumSize(QSize(52, 43))
+        self.pushButton.setStyleSheet(u"QPushButton{\n"
+"background-color: rgb(200, 200, 200);\n"
+"color:white;\n"
+"text-align:center;\n"
+"height:30px;\n"
+"border: 3px solid rgb(200, 200, 200);   \n"
+"border-radius:15px;\n"
+"padding-left:3px;\n"
+"padding-right:3px;\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background: rgb(100, 100, 100);  /* p\u016fvodn\u00ed barva <span> */\n"
+"    border: 3px solid rgb(70,70, 70);\n"
+"      /* aby se po p\u0159id\u00e1n\u00ed borderu nezv\u011bt\u0161ilo tla\u010d\u00edtko */\n"
+"}\n"
+"\n"
+"/* Aktivn\u00ed stav (klik) \u2013 m\u00edrn\u011b zesv\u011btl\u00edme okraj */\n"
+"QPushButton:pressed {\n"
+"    background-color:  rgb(120, 120, 120); \n"
+"    border: 3px solid  rgb(120, 120, 120); \n"
+"\n"
+"}")
+        icon6 = QIcon()
+        icon6.addFile(u":/Icons/refresh.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton.setIcon(icon6)
+        self.pushButton.setIconSize(QSize(28, 28))
+
+        self.horizontalLayout.addWidget(self.pushButton)
+
+
+        self.horizontalLayout_top_bar.addWidget(self.status_indicators)
+
+
+        self.verticalLayout_main_okno.addWidget(self.top_bar)
 
         self.stackedWidget = QStackedWidget(self.main_okno)
         self.stackedWidget.setObjectName(u"stackedWidget")
@@ -415,7 +545,7 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QRect(330, 346, 141, 81))
         self.stackedWidget.addWidget(self.page_none)
 
-        self.verticalLayout_5.addWidget(self.stackedWidget)
+        self.verticalLayout_main_okno.addWidget(self.stackedWidget)
 
 
         self.gridLayout.addWidget(self.main_okno, 0, 2, 1, 1)
@@ -440,7 +570,7 @@ class Ui_MainWindow(object):
         self.pb_settings_expanded.toggled.connect(self.pb_settings_small.setChecked)
         self.pb_settings_small.toggled.connect(self.pb_settings_expanded.setChecked)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -464,8 +594,11 @@ class Ui_MainWindow(object):
         self.pb_unknown1_expanded.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.pb_settings_expanded.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.label_7.setText("")
-        self.pushButton_13.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_14.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.robot_status_label.setText(QCoreApplication.translate("MainWindow", u"Robot", None))
+        self.camera_status_label.setText(QCoreApplication.translate("MainWindow", u"Camera", None))
+        self.ros_status_label.setText(QCoreApplication.translate("MainWindow", u"ROS", None))
+        self.unused_status_label.setText(QCoreApplication.translate("MainWindow", u"Unused", None))
+        self.pushButton.setText("")
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"capture", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"setup", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"dashboards", None))

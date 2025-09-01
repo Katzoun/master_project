@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QMainWindow, QFileDialog
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'GUI'))
 from app_spraysense.GUI.SpraySenseMainWin import SpraySenseMainWindow
 from shared_data import SharedData  
 

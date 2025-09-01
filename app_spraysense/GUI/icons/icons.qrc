@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>github.png</file>
+    <file>robotic-arm.png</file>
+    <file>ros.png</file>
+    <file>vision-target.png</file>
     <file>dashboard-monitor.png</file>
     <file>add-document.png</file>
     <file>add-folder.png</file>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1600</width>
-    <height>1000</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -77,7 +77,7 @@ QPushButton:checked {
 
 }</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_sidebar_small">
        <property name="spacing">
         <number>15</number>
        </property>
@@ -94,7 +94,7 @@ QPushButton:checked {
         <number>9</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_pb_small">
          <property name="spacing">
           <number>10</number>
          </property>
@@ -134,7 +134,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/menu.png</normaloff>:/Icons/menu.png</iconset>
            </property>
            <property name="iconSize">
@@ -154,7 +154,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/dashboard-monitor.png</normaloff>:/Icons/dashboard-monitor.png</iconset>
            </property>
            <property name="iconSize">
@@ -177,7 +177,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/circle-nodes.png</normaloff>:/Icons/circle-nodes.png</iconset>
            </property>
            <property name="iconSize">
@@ -200,7 +200,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/edit (1).png</normaloff>:/Icons/edit (1).png</iconset>
            </property>
            <property name="iconSize">
@@ -223,7 +223,7 @@ QPushButton:checked {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/camera.png</normaloff>:/Icons/camera.png</iconset>
            </property>
            <property name="iconSize">
@@ -280,7 +280,7 @@ QPushButton:checked {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../main/GUI/icons/icons.qrc">
+          <iconset resource="icons/icons.qrc">
            <normaloff>:/Icons/settings.png</normaloff>:/Icons/settings.png</iconset>
          </property>
          <property name="iconSize">
@@ -303,7 +303,7 @@ QPushButton:checked {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../main/GUI/icons/icons.qrc">:/Icons/vutlogo.png</pixmap>
+          <pixmap resource="icons/icons.qrc">:/Icons/vutlogo.png</pixmap>
          </property>
         </widget>
        </item>
@@ -353,7 +353,7 @@ QPushButton:checked {
 }
 </string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_sidebar_expanded">
        <property name="spacing">
         <number>15</number>
        </property>
@@ -361,7 +361,7 @@ QPushButton:checked {
         <number>0</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout_pb_expanded">
          <property name="spacing">
           <number>10</number>
          </property>
@@ -403,7 +403,7 @@ QPushButton:pressed {
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/menu.png</normaloff>:/Icons/menu.png</iconset>
            </property>
            <property name="iconSize">
@@ -423,7 +423,7 @@ QPushButton:pressed {
             <string>Dashboard</string>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/dashboard-monitor.png</normaloff>:/Icons/dashboard-monitor.png</iconset>
            </property>
            <property name="iconSize">
@@ -449,7 +449,7 @@ QPushButton:pressed {
             <string>Setup</string>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/circle-nodes.png</normaloff>:/Icons/circle-nodes.png</iconset>
            </property>
            <property name="iconSize">
@@ -472,7 +472,7 @@ QPushButton:pressed {
             <string>Edit</string>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/edit (1).png</normaloff>:/Icons/edit (1).png</iconset>
            </property>
            <property name="iconSize">
@@ -495,7 +495,7 @@ QPushButton:pressed {
             <string>PushButton</string>
            </property>
            <property name="icon">
-            <iconset resource="../../main/GUI/icons/icons.qrc">
+            <iconset resource="icons/icons.qrc">
              <normaloff>:/Icons/camera.png</normaloff>:/Icons/camera.png</iconset>
            </property>
            <property name="iconSize">
@@ -552,7 +552,7 @@ QPushButton:pressed {
           <string>Settings</string>
          </property>
          <property name="icon">
-          <iconset resource="../../main/GUI/icons/icons.qrc">
+          <iconset resource="icons/icons.qrc">
            <normaloff>:/Icons/settings.png</normaloff>:/Icons/settings.png</iconset>
          </property>
          <property name="iconSize">
@@ -575,7 +575,7 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../main/GUI/icons/icons.qrc">:/Icons/uailogofull.png</pixmap>
+          <pixmap resource="icons/icons.qrc">:/Icons/uailogofull.png</pixmap>
          </property>
         </widget>
        </item>
@@ -584,27 +584,25 @@ QPushButton:pressed {
     </item>
     <item row="0" column="2">
      <widget class="QWidget" name="main_okno" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout_main_okno">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QWidget" name="top_bar" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="pushButton_13">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_14">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
+         <layout class="QHBoxLayout" name="horizontalLayout_top_bar">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
@@ -618,6 +616,211 @@ QPushButton:pressed {
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QWidget" name="status_indicators" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>600</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QWidget#status_indicators{
+background-color: rgb(30, 30, 30);
+border-bottom-left-radius:15px;
+border-bottom-right-radius:15px;
+border-top-left-radius:0px;
+border-top-right-radius:0px;
+}
+
+QWidget{
+background-color: rgb(200, 200, 200);
+border-radius:15px;
+color:rgb(0, 0, 0)
+}
+</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QWidget" name="robot_status_widget" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_ind_robot">
+                <item>
+                 <widget class="QLabel" name="robot_status_label">
+                  <property name="text">
+                   <string>Robot</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Indicator" name="robot_indicator" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="camera_status_widget" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_ind_camera">
+                <property name="leftMargin">
+                 <number>9</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>9</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="camera_status_label">
+                  <property name="text">
+                   <string>Camera</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Indicator" name="camera_indicator" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="ros_backend_widget" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="ros_status_label">
+                  <property name="text">
+                   <string>ROS</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Indicator" name="ros_indicator" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="unused_status_widget" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLabel" name="unused_status_label">
+                  <property name="text">
+                   <string>Unused</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Indicator" name="robot_status_indicator_4" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>52</width>
+                 <height>43</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+background-color: rgb(200, 200, 200);
+color:white;
+text-align:center;
+height:30px;
+border: 3px solid rgb(200, 200, 200);   
+border-radius:15px;
+padding-left:3px;
+padding-right:3px;
+
+}
+
+QPushButton:hover {
+    background: rgb(100, 100, 100);  /* původní barva &lt;span&gt; */
+    border: 3px solid rgb(70,70, 70);
+      /* aby se po přidání borderu nezvětšilo tlačítko */
+}
+
+/* Aktivní stav (klik) – mírně zesvětlíme okraj */
+QPushButton:pressed {
+    background-color:  rgb(120, 120, 120); 
+    border: 3px solid  rgb(120, 120, 120); 
+
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/icons.qrc">
+                 <normaloff>:/Icons/refresh.png</normaloff>:/Icons/refresh.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -627,7 +830,7 @@ QPushButton:pressed {
           <string notr="true">background-color: rgb(119, 118, 123);</string>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_capture">
           <widget class="QLabel" name="label_6">
@@ -741,12 +944,18 @@ QPushButton:pressed {
   <customwidget>
    <class>QtInteractor</class>
    <extends>QWidget</extends>
-   <header>qtinteractor.h</header>
+   <header>pyvistaqt</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Indicator</class>
+   <extends>QWidget</extends>
+   <header>indicator</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../main/GUI/icons/icons.qrc"/>
+  <include location="icons/icons.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -980,12 +1189,12 @@ QPushButton:pressed {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>123</x>
-     <y>973</y>
+     <x>210</x>
+     <y>731</y>
     </hint>
     <hint type="destinationlabel">
-     <x>30</x>
-     <y>973</y>
+     <x>39</x>
+     <y>731</y>
     </hint>
    </hints>
   </connection>
@@ -996,12 +1205,12 @@ QPushButton:pressed {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>49</x>
-     <y>982</y>
+     <x>58</x>
+     <y>731</y>
     </hint>
     <hint type="destinationlabel">
-     <x>116</x>
-     <y>982</y>
+     <x>203</x>
+     <y>731</y>
     </hint>
    </hints>
   </connection>
