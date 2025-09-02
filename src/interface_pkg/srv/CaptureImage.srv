@@ -1,4 +1,4 @@
-geometry_msgs/Pose current_robot_pose
+geometry_msgs/Pose robot_pose
 string camera_settings
 ---
 bool success

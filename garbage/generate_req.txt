@@ -1,4 +1,0 @@
-uzitecne prikazy
-
-pip list --local --format=freeze > requirements.txt
-pip list --local

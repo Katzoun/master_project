@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'talker = camera_pkg.publisher_member_function:main',
+            'photoneo_node_exec = camera_pkg.photoneo_node:main',
         ],
     },
 )

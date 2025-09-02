@@ -1,0 +1,26 @@
+photoneo_camera:
+  
+  connection:
+    ip: "192.168.1.100"
+    port: 11003
+    timeout: 5.0
+  
+  capture:
+    exposure_time: 100
+    gain: 50
+    brightness: 0
+    contrast: 0
+  
+  point_cloud:
+    enable: true
+    quality: "high"
+  
+  output:
+    directory: "/tmp/captured_images"
+    image_format: "png"
+    point_cloud_format: "ply"
+  
+  processing:
+    apply_filters: true
+    min_distance: 0.1
+    max_distance: 5.0

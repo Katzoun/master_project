@@ -5,7 +5,7 @@
 WORKSPACE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$WORKSPACE_DIR"
 echo "Workspace directory: $WORKSPACE_DIR"
-
+echo "Starting build process..."
 SESSION_NAME="ros_build"
 
 # kill existing session
@@ -27,6 +27,7 @@ tmux send-keys -t $SESSION_NAME:general "echo '=== INTERFACE BUILD FINISHED ==='
 tmux send-keys -t $SESSION_NAME:general "echo '=== GENERAL WORKSPACE READY ==='" Enter
 # tmux send-keys -t $SESSION_NAME:general "echo 'Available commands: ros2 run, ros2 launch, etc.'" Enter
 
+sleep 3
 
 # Nastavení prvního panelu pro camera_pkg
 tmux new-window -t $SESSION_NAME -n "camera_build"
@@ -40,6 +41,8 @@ tmux send-keys -t $SESSION_NAME:camera_build "colcon build --packages-select cam
 tmux send-keys -t $SESSION_NAME:camera_build "source install/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "echo '=== CAMERA NODE BUILD FINISHED ==='" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "echo 'Environment ready for camera_pkg development'" Enter
+
+sleep 3
 
 # new window for abb_rws_pkg
 tmux new-window -t $SESSION_NAME -n "abb_rws_build"
@@ -55,6 +58,9 @@ tmux send-keys -t $SESSION_NAME:abb_rws_build "echo '=== RWS NODE BUILD FINISHED
 tmux send-keys -t $SESSION_NAME:abb_rws_build "echo 'Environment ready for abb_rws_pkg development'" Enter
 
 tmux send-keys -t $SESSION_NAME:general "source install/setup.bash" Enter
+tmux send-keys -t $SESSION_NAME:camera_build "ros2 run camera_pkg photoneo_node_exec" Enter
+
+
 
 # Navigate back to the first window
 tmux select-window -t $SESSION_NAME:general
