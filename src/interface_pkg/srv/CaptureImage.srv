@@ -1,0 +1,5 @@
+geometry_msgs/Pose current_robot_pose
+string camera_settings
+---
+bool success
+string file_path

@@ -12,9 +12,24 @@ SESSION_NAME="ros_build"
 tmux kill-session -t $SESSION_NAME 2>/dev/null
 
 # new tmux session
-tmux new-session -d -s $SESSION_NAME -n "camera_build"
+tmux new-session -d -s $SESSION_NAME -n "general"
+
+
+# general workspace window
+tmux send-keys -t $SESSION_NAME:general "cd '$WORKSPACE_DIR'" Enter
+tmux send-keys -t $SESSION_NAME:general "source /opt/ros/humble/setup.bash" Enter
+tmux send-keys -t $SESSION_NAME:general "echo '=== CURRENT PYTHON PATH ==='" Enter
+tmux send-keys -t $SESSION_NAME:general "which python" Enter
+tmux send-keys -t $SESSION_NAME:general "echo '=== BUILDING INTERFACE PKG ==='" Enter
+tmux send-keys -t $SESSION_NAME:general "colcon build --packages-select interface_pkg" Enter
+tmux send-keys -t $SESSION_NAME:general "echo '=== INTERFACE BUILD FINISHED ==='" Enter
+# tmux send-keys -t $SESSION_NAME:general "source install/setup.bash" Enter
+tmux send-keys -t $SESSION_NAME:general "echo '=== GENERAL WORKSPACE READY ==='" Enter
+# tmux send-keys -t $SESSION_NAME:general "echo 'Available commands: ros2 run, ros2 launch, etc.'" Enter
+
 
 # Nastavení prvního panelu pro camera_pkg
+tmux new-window -t $SESSION_NAME -n "camera_build"
 tmux send-keys -t $SESSION_NAME:camera_build "cd '$WORKSPACE_DIR'" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "source /opt/ros/humble/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "source venvs/camera_pkg_venv/bin/activate" Enter
@@ -39,16 +54,10 @@ tmux send-keys -t $SESSION_NAME:abb_rws_build "source install/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:abb_rws_build "echo '=== RWS NODE BUILD FINISHED ==='" Enter
 tmux send-keys -t $SESSION_NAME:abb_rws_build "echo 'Environment ready for abb_rws_pkg development'" Enter
 
-# general workspace window
-tmux new-window -t $SESSION_NAME -n "general"
-tmux send-keys -t $SESSION_NAME:general "cd '$WORKSPACE_DIR'" Enter
-tmux send-keys -t $SESSION_NAME:general "source /opt/ros/humble/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:general "source install/setup.bash" Enter
-tmux send-keys -t $SESSION_NAME:general "echo '=== GENERAL WORKSPACE READY ==='" Enter
-tmux send-keys -t $SESSION_NAME:general "echo 'Available commands: ros2 run, ros2 launch, etc.'" Enter
 
 # Navigate back to the first window
-tmux select-window -t $SESSION_NAME:camera_build
+tmux select-window -t $SESSION_NAME:general
 
 echo "=== Build started in tmux session '$SESSION_NAME' ==="
 echo "Use these commands to interact with the session:"
