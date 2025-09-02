@@ -4,5 +4,9 @@
 /app_spraysense/__pycache__/
 /app_spraysense/GUI/__pycache__/
 /utils/__pycache__/
-/venv/
+/venvs/*
+!/venvs/.gitkeep
 /logs/
+/build
+/install
+/log
