@@ -27,7 +27,7 @@ tmux send-keys -t $SESSION_NAME:general "echo '=== INTERFACE BUILD FINISHED ==='
 tmux send-keys -t $SESSION_NAME:general "echo '=== GENERAL WORKSPACE READY ==='" Enter
 # tmux send-keys -t $SESSION_NAME:general "echo 'Available commands: ros2 run, ros2 launch, etc.'" Enter
 
-sleep 3
+sleep 5
 
 # Nastavení prvního panelu pro camera_pkg
 tmux new-window -t $SESSION_NAME -n "camera_build"

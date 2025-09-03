@@ -32,7 +32,10 @@ class PhotoneoNode(Node):
         self.get_logger().info('Incoming capture request')
         transform = np.array(request.transform).reshape((4, 4))
 
+        
         scan_dir = self.photoneo.config['photoneo_camera']['output']['directory']
+        scan_dir = os.path.join(os.getcwd(), scan_dir)  # Make path absolute
+
         point_cloud_format = self.photoneo.config['photoneo_camera']['output']['point_cloud_format']
         
         self.photoneo.set_robot_transform(transform)
@@ -47,7 +50,6 @@ class PhotoneoNode(Node):
             self.get_logger().info(str(buffer))
 
             os.makedirs(scan_dir, exist_ok=True)
-            self.get_logger().info(f"Scan directory created or already exists at: {os.path.abspath(scan_dir)}")
             scan_path = os.path.join(scan_dir, f"scan_{self.photoneo.next_scan_num}.{point_cloud_format}")
 
             self.photoneo.features.SaveLastScanFilePath.value = scan_path
@@ -58,11 +60,11 @@ class PhotoneoNode(Node):
             self.photoneo.features.SaveLastScan.execute()
 
             self.get_logger().info(f"NEW SCAN SAVED TO --> scan_path: {scan_path}")
-            
+
             self.photoneo.next_scan_num += 1
 
-            self.get_logger().info(f"Current Working Directory: {os.getcwd()}")
-            self.get_logger().info(os.path.dirname(__file__))
+            # self.get_logger().info(f"Current Working Directory: {os.getcwd()}")
+            # self.get_logger().info(os.path.dirname(__file__))
        
             response.success = True
             response.file_path = scan_path

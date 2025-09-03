@@ -70,7 +70,7 @@ class PhotoneoConfig:
                     'device_id': 'PhotoneoTL_DEV_2019-06-011-LC3',
                 },
                 'output': {
-                    'directory': '/tmp/captured_images',
+                    'directory': 'tmp/captured_images',
                     'image_format': 'png',
                     'point_cloud_format': 'ply'
                 },

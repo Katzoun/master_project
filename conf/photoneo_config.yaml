@@ -5,7 +5,7 @@ photoneo_camera:
     device_id: PhotoneoTL_DEV_InstalledExamples-basic-example
 
   output:
-    directory: "/tmp/captured_images"
+    directory: "tmp/captured_images"
     image_format: "png"
     point_cloud_format: "ply"
     save_options: '{"Mesh": true, "DepthMap": true, "PointCloud": true, "NormalMap": true}'
