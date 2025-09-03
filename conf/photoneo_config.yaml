@@ -1,26 +1,32 @@
 photoneo_camera:
   
   connection:
-    ip: "192.168.1.100"
-    port: 11003
-    timeout: 5.0
-  
-  capture:
-    exposure_time: 100
-    gain: 50
-    brightness: 0
-    contrast: 0
-  
-  point_cloud:
-    enable: true
-    quality: "high"
-  
+    # device_id: 'PhotoneoTL_DEV_2019-06-011-LC3'
+    device_id: PhotoneoTL_DEV_InstalledExamples-basic-example
+
   output:
     directory: "/tmp/captured_images"
     image_format: "png"
     point_cloud_format: "ply"
+    save_options: '{"Mesh": true, "DepthMap": true, "PointCloud": true, "NormalMap": true}'
   
+  capture:
+    PhotoneoTriggerMode: 'Software'
+    AmbientLightSuppression: true
+    CodingStrategy: 'Interreflections'
+
+  point_cloud_settings:
+    SendTexture: true
+    SendPointCloud: true
+    SendNormalMap: true
+    SendDepthMap: true
+    SendConfidenceMap: true
+
   processing:
-    apply_filters: true
-    min_distance: 0.1
-    max_distance: 5.0
+    InterreflectionsFiltering: true
+    InterreflectionFilterStrength: 0.5
+    MaxInaccuracy: 2.0
+
+  coordinate_space:
+    CoordinateSpace: 'RobotSpace'
+    TransformationSpaceSelector: 'Robot'

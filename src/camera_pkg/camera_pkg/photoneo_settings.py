@@ -9,7 +9,8 @@ harvester = get_harvester()
 with get_image_acquisition() as ia:
     features = ia.remote_device.node_map
     print(id(ia))
-    print(features.PhotoneoDeviceID.value)
+    attr_name = "PhotoneoDeviceID"
+    print(getattr(features, attr_name).value)
     print(features.IsPhoXiControlRunning.value)
     while True:
         pass
