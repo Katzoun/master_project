@@ -1,4 +1,4 @@
-from interface_pkg.srv import CaptureImage
+from interface_pkg.srv import CaptureImage, ReloadConfig
 import rclpy
 from rclpy.node import Node
 import yaml
@@ -19,13 +19,12 @@ class PhotoneoNode(Node):
 
         # Load configuration from YAML file
         self.photoneo = PhotoneoConfig(self.get_logger())
-        # realne podle toho co potrebuju a pridat callback na topic pro update configu
 
         self.photoneo.get_camera_param("PhotoneoDeviceID")
 
         self.srv = self.create_service(CaptureImage, 'capture_image', self.capture_image_callback)
-        self.get_logger().info('Photoneo capture service ready')
-
+        self.subscription = self.create_service(ReloadConfig, 'reload_config', self.reload_config_callback)
+        self.get_logger().info('Photoneo node ready')
     
 
     def capture_image_callback(self, request, response):
@@ -74,6 +73,20 @@ class PhotoneoNode(Node):
             response.file_path = "ERROR"
             self.get_logger().error(f'Error during image capture: {e}')
 
+        return response
+
+    def reload_config_callback(self, request, response):
+        try:
+            self.get_logger().info('Incoming reload config request')
+            self.photoneo.config = self.photoneo.load_config()
+            self.photoneo.log_config()
+            self.photoneo.apply_config_to_camera()
+        except Exception as e:
+            self.get_logger().error(f'Error reloading config: {e}')
+            response.success = False
+            return response
+
+        response.success = True
         return response
 
 def main(args=None):
