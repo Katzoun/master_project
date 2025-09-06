@@ -22,8 +22,8 @@ class PhotoneoNode(Node):
 
         self.photoneo.get_camera_param("PhotoneoDeviceID")
 
-        self.srv = self.create_service(CaptureImage, 'capture_image', self.capture_image_callback)
-        self.subscription = self.create_service(ReloadConfig, 'reload_config', self.reload_config_callback)
+        self.capture_service = self.create_service(CaptureImage, 'capture_image', self.capture_image_callback)
+        self.reload_service = self.create_service(ReloadConfig, 'reload_config', self.reload_config_callback)
         self.get_logger().info('Photoneo node ready')
     
 

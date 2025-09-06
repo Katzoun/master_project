@@ -1,0 +1,14 @@
+robot_config:
+  connection:
+    # ip_address: '192.168.0.37'
+    ip_address: '192.168.1.156'
+
+    # port: 443 # Use this for real robot
+    port: 80 # Use this for simulation
+    username: 'Admin'
+    password: 'robotics'
+    keepalive: true
+    keepalive_interval: 60.0 # seconds
+
+  calibration:
+    calibration_matrix_path: 'conf/calib_mat.txt'

@@ -1,131 +1,48 @@
 import requests
 from requests.auth import HTTPBasicAuth
-import sys
-import os
-import threading
-import time
-from datetime import datetime, timedelta
-import atexit
-sys.path.append(os.path.dirname(__file__))
-from exceptions import RWSException
+from .exceptions import RWSException
+
 requests.packages.urllib3.disable_warnings(
     requests.packages.urllib3.exceptions.InsecureRequestWarning
 )
 
 class RWSClient:
 
-    def __init__(self, host: str, username: str, password: str, port=80, logger=None):
+    def __init__(self, host, username, password, port=80):
         proto = "https"
         self.base_url = f"{proto}://{host}:{port}"
         self.session = requests.Session()
-        self._logged_in = False
-
-        if logger is None:
-            class DefaultLogger:
-                @staticmethod
-                def info(msg):
-                    print(msg)
-
-                @staticmethod
-                def error(msg):
-                    print(f"ERROR: {msg}")
-
-            self.logger = DefaultLogger()
-        else:
-            self.logger = logger
 
         self.session.verify = False
         self.auth_method = HTTPBasicAuth(username, password)
         self.header_typ = {'Accept': 'application/hal+json;v=2.0', 
                        'Content-Type': 'application/x-www-form-urlencoded;v=2.0'}
         self.header_opt = {'Accept': 'application/xhtml+xml;v=2.0'}
-
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit"""
-        self.logger.info(f"RWSClient.__exit__ called - Exception: {exc_type is not None}")
         
-        # Cleanup resources
-        self.logger.info("RWS Auto-logout triggered...")
-        self.logout()
-
-        # Log exception if any
-        if exc_type is not None:
-            self.logger.error(f"Exception in RWSClient: {exc_type.__name__}: {exc_val}")
-            
-        return False  # Propagate exception
-
-
     def login(self):
         url = f"{self.base_url}"
-        try:
-            resp = self.session.get(url, headers=self.header_typ, auth=self.auth_method)
-
-            if resp.status_code != 200:
-                self._logged_in = False
-                raise RWSException(f"Login failed: {resp.status_code}")
- 
-        except Exception as e:
-            raise RWSException(f"Login request failed, check connection: {e}")
-        
-        self.logger.info(f"Login status code: {resp.status_code}")
-        self._logged_in = True
-
+        resp = self.session.get(url, headers=self.header_typ, auth=self.auth_method)
+        #print(f"Login status code: {resp.status_code}")
         if 'ABBCX' not in self.session.cookies.get_dict():
             raise RWSException("Login failed: missing ABBCX cookie")
-        
+        #save cookies to a file
         return resp.status_code
-
     
     def logout(self):
-
         url = f"{self.base_url}/logout"
         resp = self.session.get(url, headers=self.header_typ)
+        print(f"Logout status code: {resp.status_code}")
         
-        self.logger.info(f"Logout status code: {resp.status_code}")
-
         if resp.status_code != 204:
             raise RWSException(f"Logout failed: {resp.status_code}")
         
         self.session.close()
         return resp.status_code
-    
-
-    def send_keepalive(self):
-        """Sends a lightweight request to keep the connection alive"""
-        # Lightweight GET request - just check controller state
-        url = f"{self.base_url}/rw/system"
-        resp = self.session.get(url, headers=self.header_typ, timeout=10)
         
-        if resp.status_code == 200:
-            return True
-        else:
-            return False
-
-
-    # def _reconnect(self):
-    #     """Attempts to reconnect"""
-    #     print("Attempting reconnection...")
-    #     self.session.close()
-    #     self.session = requests.Session()
-    #     self.session.verify = False
-        
-    #     # Re-login
-    #     url = f"{self.base_url}"
-    #     resp = self.session.get(url, headers=self.header_typ, auth=self.auth_method)
-        
-    #     if resp.status_code == 200 and 'ABBCX' in self.session.cookies.get_dict():
-    #         with self._lock:
-    #             self.last_activity = datetime.now()
-    #         print("Reconnection successful")
-    #     else:
-    #         raise RWSException("Reconnection failed")
-
-
     def is_logged_in(self):
         url = f"{self.base_url}"
         resp = self.session.get(url, headers=self.header_typ)
-        print(f"Login status code: {resp.status_code}")
+        #print(f"Login status code: {resp.status_code}")
         if resp.status_code == 200:
             return True
         return False
@@ -135,7 +52,7 @@ class RWSClient:
         resp = self.session.get(url, headers=self.header_typ)
         #print(f"GET status code: {resp.status_code}")
         #print(f"Cookies: {self.session.cookies.get_dict()}")
-        
+
         if resp.status_code != 200:
             raise RWSException(f"GET {path} failed: {resp.status_code}")
         return (resp.json() if resp.content else None, resp.status_code)
@@ -143,8 +60,7 @@ class RWSClient:
     def post_request(self, path, dataIn=None):
         url = f"{self.base_url}{path}"
         resp = self.session.post(url, headers=self.header_typ, data=dataIn)
-
-        #print(resp.text)
+        # print(resp.text)
         #print(f"POST status code: {resp.status_code}")
         if resp.status_code not in (200, 201, 204):
             raise RWSException(f"POST {path} failed: {resp.status_code}")
@@ -156,14 +72,11 @@ class RWSClient:
         #print(resp.text)
         #print(f"POST status code: {resp.status_code}")
         if resp.status_code not in (204,500):
-            
             raise RWSException(f"POST {path} failed: {resp.status_code}")
         return resp.status_code
 
     def options_request(self, path):
         url = f"{self.base_url}{path}"
-
-
         resp = self.session.options(url, headers=self.header_opt)
         #print(f"OPTIONS status code: {resp.status_code}")
         if resp.status_code not in (200, 201, 204):

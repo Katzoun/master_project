@@ -1,0 +1,5 @@
+string command_type
+string parameters  # i.e. JSON/YAML string
+---
+string result
+int32 status_code

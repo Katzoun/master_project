@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'listener = abb_rws_pkg.subscriber_member_function:main',
+            'abb_node_exec = abb_rws_pkg.abb_node:main'
         ],
     },
 )

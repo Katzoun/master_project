@@ -2,12 +2,12 @@ photoneo_camera:
   
   connection:
     # device_id: 'PhotoneoTL_DEV_2019-06-011-LC3'
-    device_id: PhotoneoTL_DEV_InstalledExamples-basic-example
+    device_id: 'PhotoneoTL_DEV_InstalledExamples-basic-example'
 
   output:
-    directory: "tmp/captured_images"
-    image_format: "png"
-    point_cloud_format: "ply"
+    directory: 'tmp/captured_images'
+    image_format: 'png'
+    point_cloud_format: 'ply'
     save_options: '{"Mesh": true, "DepthMap": true, "PointCloud": true, "NormalMap": true}'
   
   capture:

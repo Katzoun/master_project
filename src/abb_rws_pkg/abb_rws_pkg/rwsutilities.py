@@ -14,7 +14,7 @@ def string_to_list(input_string):
         return ast.literal_eval(input_string)
     except Exception as e:
         #print(f"Error: {e}")
-        raise ValueError(f"Invalid tool string: {input_string}") from e
+        raise ValueError(f"Invalid string: {input_string}") from e
     
 def list_to_string(input_list):
     """
@@ -49,11 +49,11 @@ def pose_vector_to_tf_matrix(params: np.ndarray) -> np.ndarray:
         - The function uses scipy.spatial.transform.Rotation for rotation calculations
         - The rotation is applied using the xyz convention (rotations about fixed axes)
         - The returned matrix is in the form:
-          [R R R tx]
-          [R R R ty]
-          [R R R tz]
-          [0 0 0  1]
-          where R represents the 3x3 rotation matrix and [tx, ty, tz] is the translation
+        [R R R tx]
+        [R R R ty]
+        [R R R tz]
+        [0 0 0  1]
+        where R represents the 3x3 rotation matrix and [tx, ty, tz] is the translation
     """
     # Split the vector into translation and rotation
     tx, ty, tz = params[:3]

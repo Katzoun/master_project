@@ -18,6 +18,17 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 
   "srv/CaptureImage.srv"
   "srv/ReloadConfig.srv"
+  "srv/RWSCommand.srv"
+  "srv/RWSCommandNoParams.srv"
+  "srv/ResponseOnly.srv"
+  "srv/IntResponse.srv"
+  "srv/FloatResponse.srv"
+  "srv/BoolResponse.srv"
+  "srv/StringResponse.srv"
+  "msg/IntMsg.msg"
+  "msg/FloatMsg.msg"
+  "msg/BoolMsg.msg"
+
   DEPENDENCIES geometry_msgs # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
 

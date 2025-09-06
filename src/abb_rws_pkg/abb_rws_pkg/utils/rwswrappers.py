@@ -1,7 +1,7 @@
 # rws_wrappers.py
 from .exceptions import RWSException
-import utils.utilities as rwsutils
-import numpy as np
+import utils.rwsutils as rwsutils
+
 import json
 
 class RWSWrappers:
@@ -163,40 +163,23 @@ class RWSWrappers:
     
     def get_robot_cartesian(self, mechunit_name = "ROB_1"):
         """ 
-        Returns the robot cartesian position in format [x, y, z, q1, q2, q3, q4]
+        Returns the robot cartesian position in format [[x, y, z], [q1, q2, q3, q4]]
         """
+        if not mechunit_name:
+            raise RWSException("Mechanical unit name cannot be empty")
+
         (data, status) = self.client.get_request(f"/rw/motionsystem/mechunits/{mechunit_name}/cartesian")
         data = data['state'][0]
         #print(data)
-        # Extract and convert to float using numpy
-        position = np.array([float(data.get('x', 0)), float(data.get('y', 0)), float(data.get('z', 0))])
-        quaternion = np.array([float(data.get('q1', 0)), float(data.get('q2', 0)), 
-                              float(data.get('q3', 0)), float(data.get('q4', 0))])
-
-        result = np.concatenate([position, quaternion])
-
-        return (result, status)
-    
-    def get_robot_cartesian_euler(self, mechunit_name = "ROB_1"):
-        """ 
-        Returns the robot cartesian position with Euler angles in format [x, y, z, rx, ry, rz]
-        Euler angles are in degrees and follow ABB convention (xyz intrinsic rotations)
-        """
-        (cartesian_data, status) = self.get_robot_cartesian(mechunit_name)
-        
-        if status != 200:
-            return (cartesian_data, status)
-        
-        # Extract position and quaternion
-        position = cartesian_data[:3]
-        quaternion = cartesian_data[3:]
-        
-        # Convert quaternion to Euler angles using ABB convention
-        euler_angles = rwsutils.abb_quaternion_to_euler_xyz(quaternion[0], quaternion[1], quaternion[2], quaternion[3])
-        
-        # Combine position and Euler angles
-        result = np.concatenate([position, euler_angles])
-        
+        # Extract and convert to float
+        x = float(data.get('x', 0))
+        y = float(data.get('y', 0))
+        z = float(data.get('z', 0))
+        q1 = float(data.get('q1', 0))
+        q2 = float(data.get('q2', 0))
+        q3 = float(data.get('q3', 0))
+        q4 = float(data.get('q4', 0))
+        result = [[x, y, z], [q1, q2, q3, q4]]
         return (result, status)
     
     def get_robot_robtarget(self, mechunit_name = "ROB_1"):
@@ -918,22 +901,44 @@ class RWSWrappers:
             return True
         else:
             raise RWSException(f"Failed to create IPC queue {queue_name}")
-        
-    def send_dipc_message(self,message, queue_name = "RMQ_T_ROB1"):
+
+    def send_dipc_message_raw(self,raw_message, userdef = 1, queue_name = "RMQ_T_ROB1"):
         """ 
         Sends a message to the specified DIPC queue.
         """
-        if not queue_name or not message:
+        if not queue_name or not raw_message:
             raise RWSException("Queue name and message cannot be empty")
             
-        payload={"dipc-src-queue-name": queue_name, "dipc-cmd": 0, "dipc-userdef": 1,
-                 "dipc-msgtype": 1, "dipc-data": message}
+        payload={"dipc-src-queue-name": queue_name, "dipc-cmd": 0, "dipc-userdef": userdef,
+                 "dipc-msgtype": 1, "dipc-data": raw_message}
 
         # message_str = f"dipc-src-queue-name={queue_name}&dipc-cmd=111&dipc-userdef=222&dipc-msgtype=1&dipc-data={message}"
         
         status = self.client.dipc_post_request(f"/rw/dipc/{queue_name}/?action=dipc-send", dataIn=payload)
 
         
+        if status == 204:
+            return True
+        else:
+            raise RWSException(f"Failed to send message to IPC queue {queue_name}, queue is propably full")
+        
+
+    def send_dipc_message(self,message,rapid_dtype : str , userdef = 1, queue_name = "RMQ_T_ROB1"):
+        """ 
+        Sends a message to the specified DIPC queue.
+        """
+        if not queue_name or not message:
+            raise RWSException("Queue name and message cannot be empty")
+        msg_str = rapid_dtype + ";" + message
+        #print(msg_str)
+            
+        payload={"dipc-src-queue-name": queue_name, "dipc-cmd": 0, "dipc-userdef": userdef,
+                 "dipc-msgtype": 1, "dipc-data": msg_str}
+
+        # message_str = f"dipc-src-queue-name={queue_name}&dipc-cmd=111&dipc-userdef=222&dipc-msgtype=1&dipc-data={message}"
+        
+        status = self.client.dipc_post_request(f"/rw/dipc/{queue_name}/?action=dipc-send", dataIn=payload)
+
         if status == 204:
             return True
         else:

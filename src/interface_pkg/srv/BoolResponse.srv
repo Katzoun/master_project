@@ -1,0 +1,5 @@
+string object_name
+string module_name
+---
+bool result
+int32 status_code
