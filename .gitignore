@@ -11,3 +11,5 @@
 /install
 /log
 /tmp
+/src/abb_rws_pkg/abb_rws_pkg/__pycache__/
+/src/camera_pkg/camera_pkg/__pycache__/

@@ -16,6 +16,7 @@ tmux new-session -d -s $SESSION_NAME -n "general"
 
 
 # general workspace window
+tmux select-window -t $SESSION_NAME:general
 tmux send-keys -t $SESSION_NAME:general "cd '$WORKSPACE_DIR'" Enter
 tmux send-keys -t $SESSION_NAME:general "source /opt/ros/humble/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:general "echo '=== CURRENT PYTHON PATH ==='" Enter
@@ -27,9 +28,12 @@ tmux send-keys -t $SESSION_NAME:general "echo '=== INTERFACE BUILD FINISHED ==='
 tmux send-keys -t $SESSION_NAME:general "echo '=== GENERAL WORKSPACE READY ==='" Enter
 # tmux send-keys -t $SESSION_NAME:general "echo 'Available commands: ros2 run, ros2 launch, etc.'" Enter
 
-sleep 5
+# Wait until the commands in the "general" window finish before proceeding
+tmux wait-for -S general_build_done
+tmux send-keys -t $SESSION_NAME:general "tmux wait-for general_build_done" Enter
 
-# Nastavení prvního panelu pro camera_pkg
+
+tmux select-window -t $SESSION_NAME:camera_build
 tmux new-window -t $SESSION_NAME -n "camera_build"
 tmux send-keys -t $SESSION_NAME:camera_build "cd '$WORKSPACE_DIR'" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "source /opt/ros/humble/setup.bash" Enter
@@ -42,9 +46,11 @@ tmux send-keys -t $SESSION_NAME:camera_build "source install/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "echo '=== CAMERA NODE BUILD FINISHED ==='" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "echo 'Environment ready for camera_pkg development'" Enter
 
-sleep 3
+tmux wait-for -S camera_build_done
+tmux send-keys -t $SESSION_NAME:camera_build "tmux wait-for camera_build_done" Enter
 
 # new window for abb_rws_pkg
+tmux select-window -t $SESSION_NAME:abb_rws_build
 tmux new-window -t $SESSION_NAME -n "abb_rws_build"
 tmux send-keys -t $SESSION_NAME:abb_rws_build "cd '$WORKSPACE_DIR'" Enter
 tmux send-keys -t $SESSION_NAME:abb_rws_build "source /opt/ros/humble/setup.bash" Enter
@@ -60,10 +66,10 @@ tmux send-keys -t $SESSION_NAME:abb_rws_build "echo 'Environment ready for abb_r
 tmux send-keys -t $SESSION_NAME:general "source install/setup.bash" Enter
 tmux send-keys -t $SESSION_NAME:camera_build "ros2 run camera_pkg photoneo_node_exec" Enter
 
+tmux wait-for -S abb_rws_build_done
+tmux send-keys -t $SESSION_NAME:abb_rws_build "tmux wait-for abb_rws_build_done" Enter
 
 
-# Navigate back to the first window
-tmux select-window -t $SESSION_NAME:general
 
 echo "=== Build started in tmux session '$SESSION_NAME' ==="
 echo "Use these commands to interact with the session:"

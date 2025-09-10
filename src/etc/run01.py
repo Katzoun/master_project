@@ -45,7 +45,7 @@ if __name__ == "__main__":
         clock = rwsWrap.get_clock()
         #print("Clock:", clock)
         #load calibration matrix from calib_mat.txt
-        calib_mat = np.loadtxt("conf/calib_mat2.txt")
+        calib_mat = np.loadtxt("src/etc/calib_mat.txt")
         print("Calibration Matrix Loaded:\n", calib_mat)
         calib_pose = utilities.tf_matrix_to_pose_vector(calib_mat, use_euler=True)
         calib_pose_abb = utilities.tf_matrix_to_pose_vector(calib_mat)
@@ -143,7 +143,6 @@ if __name__ == "__main__":
                 features.SaveLastScan.execute()
 
             iter += 1
-            break
             input("Press Enter to continue...")
             print("Continuing...")
             time.sleep(1)
