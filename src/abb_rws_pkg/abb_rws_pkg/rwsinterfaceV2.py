@@ -6,6 +6,35 @@ from rwsproviderV2 import RWSClient
 import rwsutilities
 
 class RWSInterface(RWSClient):
+    """
+    RWSInterface provides a high-level Python interface for interacting with ABB Robot Web Services (RWS).
+    
+    It extends RWSClient and wraps HTTP requests to the robot controller, exposing convenient methods for
+    getting and setting robot state, RAPID variables, IO signals, and DIPC queues.
+    
+    Main Features:
+        - Helper methods for generic GET/POST requests and JSON formatting.
+        - GET methods for retrieving robot controller state, RAPID execution state, IO signals, mechanical unit positions,
+        RAPID symbols, DIPC queue information, and more. Returns either string, JSON, or Python objects.
+        - POST methods for controlling robot state (motors on/off, restart controller, reset program pointer, start/stop RAPID),
+        requesting/releasing mastership, setting IO signals, updating RAPID symbols, and sending DIPC messages.
+        - Utility methods for converting between RAPID data types and Python types (int, float, bool, list, string).
+    Args:
+        host (str): Robot controller hostname or IP address.
+        username (str): Username for authentication.
+        password (str): Password for authentication.
+        port (int, optional): HTTP port (default: 80).
+        logger (optional): Logger instance for debug output.
+    
+    
+    Usage Example:
+        ```python
+        rws = RWSInterface(host="192.168.125.1", username="Default User", password="robotics")
+        rws.login()
+        clock, status = rws.get_clock()
+        value, status = rws.get_rapid_symbol_int("counter", "MainModule")
+    ```
+    """
 
 
     def __init__(self, host: str, username: str, password: str, port: int = 80, logger=None):
@@ -48,114 +77,266 @@ class RWSInterface(RWSClient):
     ###################################
 
     def get_clock(self) -> tuple[str, int]:
-        """ Returns the current clock value from the robot controller. """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: A string representing the current clock value from the robot controller.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/ctrl/clock", "datetime")
 
     def get_controller_state(self) -> tuple[str, int]:
-        """ Returns the state of the controller (motors on/off, guardstop, emergencystop, init) """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The state of the controller (motors on/off, guardstop, emergencystop, init).
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/rw/panel/ctrl-state", "ctrlstate")
         
     def get_opmode_state(self) -> tuple[str, int]:
-        """ Returns the current operational mode of the robot (auto, man, manf) """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The current operational mode of the robot (auto, man, manf).
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/rw/panel/opmode", "opmode")
 
     def get_safety_mode(self) -> tuple[str, int]:
-        """ Returns the current safety mode of the robot """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The current safety mode of the robot.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/ctrl/safety/mode", "safetymode")
 
     def get_speedratio(self) -> tuple[str, int]:
-        """ Returns the current speed ratio of the robot """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The current speed ratio of the robot.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/rw/panel/speedratio", "speedratio")
 
     def get_robot_type(self) -> tuple[str, int]:
-        """ Returns the type of the robot (e.g., CRB 15000-10/1.52,) """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The type of the robot (e.g., CRB 15000-10/1.52).
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic("/rw/system/robottype", "robot-type")
     
     def get_network_info(self) -> tuple[str, int]:
-        """ Returns the network information of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The network information of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/ctrl/network")
 
     def get_system_options(self) -> tuple[str, int]:
-        """ Returns the system options of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The system options of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/system/options")
     
     def get_system_products(self) -> tuple[str, int]:
-        """ Returns the system products of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The system products of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/system/products")
     
     def get_energy_info(self) -> tuple[str, int]:
-        """ Returns the energy information of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The energy information of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/system/energy")
     
     def get_mechunits(self) -> tuple[str, int]:
-        """ Returns the mechanical unit information of the robot """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The mechanical unit information of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/motionsystem/mechunits")
-    
+        
+        #does not work
+
     def get_rapid_modules(self) -> tuple[str, int]:
-        """ Returns the list of RAPID modules as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The list of RAPID modules as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/rapid/modules")
 
     def get_leadthrough_state(self, mechunit_name = "ROB_1") -> tuple[str, int]:
-        """ Returns the leadthrough state of the robot """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The leadthrough state of the robot.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic(f"/rw/motionsystem/mechunits/{mechunit_name}/lead-through", "status")
     
     def get_robot_baseframe(self, mechunit_name = "ROB_1") -> tuple[str, int]:
-        """ Returns the robot base frame information as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The robot base frame information as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json(f"/rw/motionsystem/mechunits/{mechunit_name}/baseframe")
     
     def get_robot_cartesian(self, mechunit_name = "ROB_1") -> tuple[str, int]:
-        """ Returns the robot cartesian position as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The robot cartesian position as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json(f"/rw/motionsystem/mechunits/{mechunit_name}/cartesian")
 
     def get_robot_robtarget(self, mechunit_name = "ROB_1") -> tuple[str, int]:
-        """ Returns the robot robtarget position as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The robot robtarget position as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json(f"/rw/motionsystem/mechunits/{mechunit_name}/robtarget")
 
     def get_robot_jointtarget(self, mechunit_name = "ROB_1") -> tuple[str, int]:
-        """ Returns the robot joint target position as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The robot joint target position as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json(f"/rw/motionsystem/mechunits/{mechunit_name}/jointtarget")
     
     def get_rapid_execution_state(self) -> tuple[str, int]:
-        """ Returns the current state of the RAPID execution """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The current state of the RAPID execution as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_generic_json("/rw/rapid/execution")
 
     def get_io_networks(self) -> tuple[str, int]:
-        """ Returns the IO networks of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The IO networks of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_embed_json("/rw/iosystem/networks")
     
     def get_io_signals(self) -> tuple[str, int]:
-        """ Returns the IO signals of the robot as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The IO signals of the robot as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_embed_json("/rw/iosystem/signals")
 
     def get_rapid_tasks(self) -> tuple[str, int]:
-        """ Returns the list of RAPID tasks as JSON string """
+        """ 
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The list of RAPID tasks as JSON string.
+            - int: The HTTP status code of the response.
+        """
         return self.get_embed_json("/rw/rapid/tasks")
 
     def get_task_robtarget(self, task_name = "T_ROB1") -> tuple[str, int]:
         """ 
-        Returns the robtarget information of a specific RAPID task as JSON string.
-        task_name: Name of the RAPID task.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The robtarget information of a specific RAPID task as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            task_name: Name of the RAPID task (default: "T_ROB1").
         """
         return self.get_generic_json(f"/rw/rapid/tasks/{task_name}/motion/robtarget")
     
     def get_task_jointtarget(self, task_name = "T_ROB1") -> tuple[str, int]:
         """ 
-        Returns the jointtarget information of a specific RAPID task as JSON string.
-        task_name: Name of the RAPID task.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The jointtarget information of a specific RAPID task as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            task_name: Name of the RAPID task (default: "T_ROB1").
         """
         return self.get_generic_json(f"/rw/rapid/tasks/{task_name}/motion/jointtarget")
     
     def get_task_modules(self, task_name = "T_ROB1") -> tuple[str, int]:
         """ 
-        Returns the list of modules in a specific RAPID task.
-        task_name: Name of the RAPID task.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The list of modules in a specific RAPID task as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            task_name: Name of the RAPID task (default: "T_ROB1").
         """
         return self.get_generic_json(f"/rw/rapid/tasks/{task_name}/modules")
 
     def get_io_signal(self, signal_name, network="", device="") -> tuple[str, int]:
         """ 
-        Returns the IO signal state for a specific signal as JSON string. 
-        For some signals, network and device does not have to be specified.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The IO signal state for a specific signal as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            signal_name: Name of the IO signal.
+            network: Network name (optional, default: "").
+            device: Device name (optional, default: "").
+        Note:
+            For some signals, network and device do not have to be specified.
         """
         if not signal_name:
             raise RWSException("Signal name cannot be empty")
@@ -168,7 +349,15 @@ class RWSInterface(RWSClient):
     
     def get_rapid_symbol(self, symbol_name, module_name, task_name="T_ROB1"):
         """ 
-        Returns the value of a specific RAPID symbol as string.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The value of a specific RAPID symbol as string.
+            - int: The HTTP status code of the response.
+        Args:
+            symbol_name: Name of the RAPID symbol.
+            module_name: Name of the module containing the symbol.
+            task_name: Name of the RAPID task (default: "T_ROB1").
         """
         if not symbol_name or not module_name:
             raise RWSException("Symbol name and module name cannot be empty")
@@ -178,55 +367,56 @@ class RWSInterface(RWSClient):
 
     def get_rapid_symbol_properties(self, symbol_name, module_name, task_name="T_ROB1"):
         """ 
-        Returns the properties of a specific RAPID symbol.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The properties of a specific RAPID symbol as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            symbol_name: Name of the RAPID symbol.
+            module_name: Name of the module containing the symbol.
+            task_name: Name of the RAPID task (default: "T_ROB1").
         """
         if not symbol_name or not module_name:
             raise RWSException("Symbol name and module name cannot be empty")
         symbol_url = f"RAPID%2F{task_name}%2F{module_name}%2F{symbol_name}"
         return self.get_embed_json(f"/rw/rapid/symbol/{symbol_url}/properties")
     
-
-    ########################################
-    ## zde konec
-    
     
     def get_dipc_queues(self):
         """ 
-        Returns the information about the DIPC queues.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The information about the DIPC queues as JSON string.
+            - int: The HTTP status code of the response.
         """
-        (data, status) = self.get_request("/rw/dipc")
-        if status != 200:
-            raise RWSException("Failed to get DIPC information")
-        
-        #print(data)
-        resources = data.get('_embedded', {}).get('resources', [])
-        queues = []
-        for res in resources:
-            queues.append(res.get('_title'))
-        
-        return (queues, status)
+        return self.get_embed_json("/rw/dipc")
+  
     
     def get_dipc_queue_info(self, queue_name="RMQ_T_ROB1"):
         """ 
-        Returns the information about a specific DIPC queue.
-        queue_name: Name of the DIPC queue.
+        Returns:
+            tuple: 
+            A tuple containing:
+            - str: The information about a specific DIPC queue as JSON string.
+            - int: The HTTP status code of the response.
+        Args:
+            queue_name: Name of the DIPC queue (default: "RMQ_T_ROB1").
         """
-        if not queue_name:
-            raise RWSException("Queue name cannot be empty")
-        
-        (data, status) = self.get_request(f"/rw/dipc/{queue_name}/information")
-        if status != 200:
-            raise RWSException(f"Failed to get DIPC queue {queue_name} information")
-        data = data.get('_embedded', {}).get('resources', [])[0]
-        #print(data)
-        return (data, status)
-    
+        return self.get_embed_json(f"/rw/dipc/{queue_name}/information")
     
     def read_dipc_message(self, queue_name="RMQ_T_ROB1", timeout=0):
         """ 
-        Reads a message from the specified DIPC queue.
-        queue_name: Name of the DIPC queue.
-        timeout: Timeout in seconds (default is 0, which means no timeout).
+        Returns:
+            tuple: 
+            A tuple containing:
+            - dict: The message data from the specified DIPC queue.
+            - int: The HTTP status code of the response.
+        Args:
+            queue_name: Name of the DIPC queue (default: "RMQ_T_ROB1").
+            timeout: Timeout in seconds (default: 0, which means no timeout).
+
         """
 
         if not queue_name:
@@ -234,12 +424,11 @@ class RWSInterface(RWSClient):
         if not isinstance(timeout, int) or timeout < 0:
             raise RWSException("Timeout must be a non-negative integer")
         
-        params = {'timeout': str(timeout)} if timeout > 0 else {}
         (data, status) = self.get_request(f"/rw/dipc/{queue_name}?timeout={timeout}")
 
         if status != 200:
-            raise RWSException(f"Failed to read message from DIPC queue {queue_name}")
-        
+            self.logger.error(f"Failed to read message from DIPC queue {queue_name}")
+
         return (data, status)
 
     ##########################################################################################################################
@@ -648,7 +837,7 @@ class RWSInterface(RWSClient):
         else:
             return not self.is_master(domain)
         
-    def  set_io_signal(self,signal_name, signal_value, network="", device=""):
+    def set_io_signal(self,signal_name, signal_value, network="", device=""):
         """ 
         Sets the IO signal state for a specific signal.
         For some signals, network and device does not have to be specified.
@@ -675,111 +864,6 @@ class RWSInterface(RWSClient):
         else:
             raise RWSException(f"Failed to set IO signal {signal_name}")
         
-    def set_jog_mechunit(self, mechunit_name="ROB_1"):
-        """ 
-        Sets the jog mode for a specific mechanical unit.
-        mechunit_name: Name of the mechanical unit (e.g., "ROB_1").
-        """
-
-        path = f"/rw/motionsystem/{mechunit_name}"
-        
-        status = self.post_request(path)
-        
-        if status == 204:
-            return True
-        else:
-            raise RWSException(f"Failed to set jog mode for mechanical unit {mechunit_name}")
-        
-    # WIP
-    # def jog_robot(self, axes_jog, ccount, inc_mode):
-    #     """ 
-    #     axes_pos: List of joint positions to jog the robot.
-    #     ccount: Number of cycles to jog.
-    #     inc_mode: 
-    #     """
-    #     if not mechunit_name:
-    #         raise RWSException("Mechanical unit name cannot be empty")
-        
-    #     if not (0 <= speed <= 100):
-    #         raise RWSException("Speed must be between 0 and 100")
-
-    #     path = f"/rw/motionsystem/{mechunit_name}/jog"
-        
-    #     status = self.post_request(path, dataIn={'speed': speed})
-        
-    #     if status == 204:
-    #         return True
-    #     else:
-    #         raise RWSException(f"Failed to jog robot in mechanical unit {mechunit_name}")
-   
-        
-    # WIP
-
-    # def set_opmode_state(self, mode):
-    #     """ Sets the operational mode of the robot ("auto", "man") """
-    #     """ does not work -- problem Operation rejected by the controller safety access restriction """
-
-    #     if mode not in ['auto', 'man']:
-    #         raise RWSException("Invalid operational mode specified")   
-         
-
-    #     status = self.post_request("/rw/panel/opmode/acknowledge", dataIn={'opmode': mode})
-    #     print(status)
-    #     self.post_request("/rw/panel/opmode", dataIn={'opmode': mode})
-
-    #     # Check if the mode was set correctly
-    #     current_mode = self.get_opmode_state()
-    #     if current_mode == mode:
-    #         return True
-    #     else:
-    #         raise RWSException(f"Failed to set operational mode to {mode}")
-    
-    # WIP
-    # def set_safety_mode(self, mode):
-    #     """ Sets the safety mode of the robot: "active", "commissioning", "service" """
-        
-
-    #     if mode not in ["active", "commissioning", "service"]:
-    #         raise RWSException("Invalid safety mode specified")
-        
-    #     status = self.post_request("/ctrl/safety/mode", dataIn={'mode': mode})
-        
-    #     if status == 204:
-    #         return True
-    #     else:
-    #         raise RWSException(f"Failed to set safety mode to {mode}")
-
-    # def set_position_target(self, robtarget):
-    #     """ 
-    #     Sets the position target of the robot.
-    #     robtarget: List in format [[x, y, z], [q1, q2, q3, q4], [c1, c2, c3, c4], [e1 ,e2, e3, e4, e5, e6]]
-    #     """
-
-    #     dataStr = (
-    #         f"pos-x={str(robtarget[0][0])}"
-    #         f"&pos-y={str(robtarget[0][1])}"
-    #         f"&pos-z={str(robtarget[0][2])}"
-    #         f"&orient-q1={str(robtarget[1][0])}"
-    #         f"&orient-q2={str(robtarget[1][1])}"
-    #         f"&orient-q3={str(robtarget[1][2])}"
-    #         f"&orient-q4={str(robtarget[1][3])}"
-    #         f"&config-j1={str(robtarget[2][0])}"
-    #         f"&config-j4={str(robtarget[2][1])}"
-    #         f"&config-j6={str(robtarget[2][2])}"
-    #         f"&config-jx={str(robtarget[2][3])}"
-    #         f"&extjoint-1={str(robtarget[3][0])}"
-    #         f"&extjoint-2={str(robtarget[3][1])}"
-    #         f"&extjoint-3={str(robtarget[3][2])}"
-    #         f"&extjoint-4={str(robtarget[3][3])}"
-    #         f"&extjoint-5={str(robtarget[3][4])}"
-    #         f"&extjoint-6={str(robtarget[3][5])}"
-    #     )
-    #     status = self.post_request("/rw/motionsystem/position-target", dataIn=dataStr)
-
-    #     if status == 204:
-    #         return True
-    #     else:
-    #         raise RWSException("Failed to set position target")
 
     def set_speedratio(self, speed_ratio):
         """ Sets the speed ratio of the robot (0-100) """

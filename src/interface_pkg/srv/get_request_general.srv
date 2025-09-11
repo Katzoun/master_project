@@ -4,4 +4,5 @@ string parameter2
 string parameter3
 string parameter4
 ---
-bool result
+string result
+int32 status_code

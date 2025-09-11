@@ -24,7 +24,7 @@ if __name__ == "__main__":
         print("Logged in:", rws.get_login_state())
 
 
-        # # Get robot positions using RWSInterface methods
+        # Get robot positions using RWSInterface methods
         # cartesian = rws.get_robot_cartesian("ROB_1")[0]
         # print("Cartesian position (JSON):", cartesian)
 
@@ -45,9 +45,7 @@ if __name__ == "__main__":
 
         # get_io_signal = rws.get_io_signal("OUTPUT_STATIONARY_ROB_1")[0]
         # print("IO Signal OUTPUT_STATIONARY_ROB_1 (JSON):", get_io_signal)
-        # print(type(get_io_signal))
-
-
+        # print(type(get_io_signal)
         # modules = rws.get_rapid_modules()[0]
         # print("RAPID Modules (JSON):", modules)
 
@@ -63,8 +61,16 @@ if __name__ == "__main__":
         # task_modules = rws.get_task_modules("T_ROB1")[0]
         # print("Task T_ROB1 modules (JSON):", task_modules)
 
-        get_rapid_symbol = rws.get_rapid_symbol("Target_30", "TRobTargets", "T_ROB1")[0]
+        get_rapid_symbol = rws.get_rapid_symbol("tool_houba", "CalibData", "T_ROB1")[0]
         print("RAPID symbol Target_30 in TRobTargets (JSON):", get_rapid_symbol)
+
+        # get_dipc_queues = rws.get_dipc_queues()[0]
+        # print("DIPC queues (JSON):", get_dipc_queues)
+
+        # get_dipc_queue_info = rws.get_dipc_queue_info("RMQ_T_ROB1")[0]
+        # print("DIPC queue RMQ_T_ROB1 info (JSON):", get_dipc_queue_info)
+
+
 
         # get_rapid_symbol_prop = rws.get_rapid_symbol_properties("Target_30", "TRobTargets", "T_ROB1")[0]
         # print("RAPID symbol Target_30 properties in TRobTargets (JSON):", get_rapid_symbol_prop)

@@ -9,7 +9,7 @@ import traceback
 
 sys.path.append(os.path.dirname(__file__))
 from utility import Utilities
-from rwsinterface import RWSInterface
+from rwsinterfaceV2 import RWSInterface
 
 class AbbNode(Node):
 
@@ -53,7 +53,7 @@ class AbbNode(Node):
 
             self.keepalive_publisher = self.create_publisher(BoolMsg, 'abb_node/keepalive_ok', 10)
 
-
+        self.get_service = self.create_service(RWSCommandNoParams, 'abb_node/rws_get_no_params', self.rws_get_callback_no_params)
 
         self.get_service = self.create_service(RWSCommandNoParams, 'abb_node/rws_get_no_params', self.rws_get_callback_no_params)
         self.login_service = self.create_service(ResponseOnly, 'abb_node/login', self.login_callback)
@@ -67,14 +67,29 @@ class AbbNode(Node):
 
         # self.post_service = self.create_service(RWSPostCommand, 'rws_post', self.rws_post_callback)
 
+    def bool_callback(self, request, response):
+        cmd_typ = request.command_type
+        param1 = request.parameter1
+        param2 = request.parameter2
+        param3 = request.parameter3
+        param4 = request.parameter4
+
+        self.logger.info(f'{cmd_typ} service called with params: {param1}, {param2}, {param3}, {param4}')
+        try:
+
 
     def login_callback(self, request, response):
         self.logger.info('Login service called')
-        try:
-            status = self.RWS.login()
+        
+        status = self.RWS.login()
+        if status:
             self._logged_in = True
             self.logger.info('Login successful')
             response.status_code = status  # Success
+
+        else:
+            self._logged_in = False
+            response.status_code = -1
 
         except Exception as e:
             self.logger.error(f'Login failed: {e}')
