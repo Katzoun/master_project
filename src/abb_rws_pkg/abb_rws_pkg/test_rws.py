@@ -8,16 +8,25 @@ from rwsinterfaceV2 import RWSInterface
 import numpy as np
 import json
 
-robotIP = "192.168.0.37"
 username = "Admin"
 password = "robotics"
+
+
+# REAL ROBOT
+# robotIP = "192.168.0.37"
+# port = 443
+
+# SIM
+robotIP = "192.168.0.30"
+port = 80
+
 
 if __name__ == "__main__":
     
     try:
         
 
-        rws = RWSInterface(robotIP, username, password, port=443)
+        rws = RWSInterface(robotIP, username, password, port)
 
         rws.login()
 
@@ -47,7 +56,10 @@ if __name__ == "__main__":
         # print("IO Signal OUTPUT_STATIONARY_ROB_1 (JSON):", get_io_signal)
         # print(type(get_io_signal)
         # modules = rws.get_rapid_modules()[0]
-        # print("RAPID Modules (JSON):", modules)
+        # # print("RAPID Modules (JSON):", modules)
+
+        # task_modules = rws.get_task_modules("T_ROB1")[0]
+        # print("Task T_ROB1 modules (JSON):", task_modules)
 
         # tasks = rws.get_rapid_tasks()[0]
         # print("RAPID Tasks (JSON):", tasks)
@@ -60,9 +72,14 @@ if __name__ == "__main__":
 
         # task_modules = rws.get_task_modules("T_ROB1")[0]
         # print("Task T_ROB1 modules (JSON):", task_modules)
+        # print(rws.get_mastership_state("edit")[0])
 
-        get_rapid_symbol = rws.get_rapid_symbol("tool_houba", "CalibData", "T_ROB1")[0]
-        print("RAPID symbol Target_30 in TRobTargets (JSON):", get_rapid_symbol)
+        # get_rapid_symbol = rws.get_rapid_symbol("tool_houba", "CalibData", "T_ROB1")[0]
+        # print("RAPID symbol Target_30 in TRobTargets (JSON):", get_rapid_symbol)
+        # print(rws.get_mastership_state("edit")[0])
+        # print(rws.request_mastership("edit"))
+        # print(rws.get_mastership_state("edit")[0])
+        # print(rws.reset_pp())
 
         # get_dipc_queues = rws.get_dipc_queues()[0]
         # print("DIPC queues (JSON):", get_dipc_queues)
@@ -176,7 +193,7 @@ if __name__ == "__main__":
         # print(rwsWrap.set_rapid_symbol_string("smaz_tabuli", "routine_name_input", "TRobRAPID"))
         # print(rwsWrap.set_rapid_symbol_int(2, "current_state", "TRobMain"))
 
-        # print(rwsWrap.send_dipc_message('robtarget;[[1200,0,700],[0,0,-1.0,0],[0,0,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]'))
+        print(rws.send_dipc_message('robtarget;[[1200,0,700],[0,0,-1.0,0],[0,0,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]', "2"))
         # print(rwsWrap.send_dipc_message('robtarget;[[800,0,700],[0,0,-1.0,0],[0,0,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]'))
         # print(rwsWrap.send_dipc_message('robtarget;[[1000,500,700],[0,0,-1.0,0],[0,0,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]'))
         # print(rwsWrap.send_dipc_message('robtarget;[[-600,0,800],[0,0,-1.0,0],[0,0,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]'))
@@ -192,6 +209,29 @@ if __name__ == "__main__":
         # robt[0][0] = 800
 
         # print(rwsWrap.set_rapid_symbol_list(robt, "move_robtarget_input", "TRobRAPID"))
+
+
+
+            #test run moveJ
+    #get_request(conn, "/rw/rapid/symbol/RAPID%2FT_ROB1%2FTRobRAPID%2Fmove_robtarget_input/data")
+
+
+#     robtarget_value = [
+#     [1200, 0, 500],
+#     [0, 0, -1, 0],
+#     [0, -1, 0, 0],
+#     [9E+9, 9E+9, 9E+9, 9E+9, 9E+9, 9E+9]
+# ]
+#     robtarget_value_str = json.dumps(robtarget_value)
+#     post_request(conn, "/rw/rapid/symbol/RAPID%2FT_ROB1%2FTRobRAPID%2Fmove_robtarget_input/data?mastership=implicit" ,
+#                dataIn={'value' : robtarget_value_str})
+
+
+    #post_request(conn, "/rw/rapid/symbol/RAPID%2FT_ROB1%2FTRobRAPID%2Fmove_robtarget_input/data?mastership=implicit" ,
+               #dataIn={'value' : '[[800,0,500],[0,0,-1,0],[0,-1,0,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]]'})
+
+    # post_request(conn, "/rw/rapid/symbol/RAPID%2FT_ROB1%2FTRobRAPID%2Froutine_name_input/data?mastership=implicit" ,
+    #             dataIn={'value' : '"runMoveJ"'})
 
         time.sleep(2)
 
