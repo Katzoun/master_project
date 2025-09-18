@@ -6,84 +6,9 @@ import open3d as o3d
 import numpy as np
 import matplotlib.pyplot as plt
 import struct
+from plyfile import PlyData, PlyElement
 
 print(os.getcwd())
-
-def extract_photoneo_camera_info(filepath):
-    """Extract camera information from Photoneo PLY file"""
-    
-    camera_info = {}
-    
-    with open(filepath, 'rb') as f:
-        # Skip to end of header
-        while True:
-            line = f.readline().decode('ascii').strip()
-            if line == 'end_header':
-                break
-        
-        # Read vertex data (skip for now - we want camera data)
-        # Each vertex has: x,y,z,nx,ny,nz,r,g,b,texture32,depth32 (44 bytes total)
-        vertex_count = 3186816 # From header
-        vertex_size = 35  
-        f.seek(vertex_count * vertex_size, 1)  # Skip vertex data
-        
-        # Read camera element (1 camera)
-        camera_data = f.read(12 * 4)  # 12 float properties
-        camera_values = struct.unpack('<12f', camera_data)
-        
-        camera_info['camera'] = {
-            'view_position': [camera_values[0], camera_values[1], camera_values[2]],  # view_px, view_py, view_pz
-            'x_axis': [camera_values[3], camera_values[4], camera_values[5]],         # x_axisx, x_axisy, x_axisz
-            'y_axis': [camera_values[6], camera_values[7], camera_values[8]],         # y_axisx, y_axisy, y_axisz
-            'z_axis': [camera_values[9], camera_values[10], camera_values[11]]        # z_axisx, z_axisy, z_axisz
-        }
-        
-        # Read phoxi_frame_params (1 element)
-        frame_data = f.read(8 * 4)  # 6 uint32 + 3 float + 1 int32 = 8*4 bytes
-        frame_values = struct.unpack('<IIIFFFFI', frame_data)
-        
-        camera_info['frame_params'] = {
-            'width': frame_values[0],
-            'height': frame_values[1], 
-            'frame_index': frame_values[2],
-            'start_time': frame_values[3],
-            'duration': frame_values[4],
-            'computation_duration': frame_values[5],
-            'transfer_duration': frame_values[6],
-            'total_scan_count': frame_values[7]
-        }
-        
-        # Read camera matrix (3x3 matrix)
-        matrix_data = f.read(9 * 4)  # 9 floats
-        matrix_values = struct.unpack('<9f', matrix_data)
-        
-        camera_info['camera_matrix'] = np.array(matrix_values).reshape(3, 3)
-        
-        # Read distortion matrix
-        distortion_data = f.read(14 * 4)  # 14 floats
-        distortion_values = struct.unpack('<14f', distortion_data)
-        
-        camera_info['distortion_matrix'] = np.array(distortion_values)
-        
-        # Read camera resolution
-        resolution_data = f.read(2 * 4)  # 2 floats
-        resolution_values = struct.unpack('<2f', resolution_data)
-        
-        camera_info['camera_resolution'] = {
-            'width': resolution_values[0],
-            'height': resolution_values[1]
-        }
-        
-        # Read frame binning
-        binning_data = f.read(2 * 4)  # 2 floats
-        binning_values = struct.unpack('<2f', binning_data)
-        
-        camera_info['frame_binning'] = {
-            'horizontal': binning_values[0],
-            'vertical': binning_values[1]
-        }
-    
-    return camera_info
 
 
 if __name__ == "__main__":
@@ -98,21 +23,109 @@ if __name__ == "__main__":
     #open scan_28.ply a visualize 2d image of point cloud from camera perspective
     ply_name = "scan_28.ply"
     ply_path = os.path.join(frames_dir, ply_name)
-    camera_info = extract_photoneo_camera_info(ply_path)
+    print(f"Loading PLY: {ply_path}")
 
-    # Print extracted information
-    print("=== CAMERA INFORMATION ===")
-    print(f"Camera position: {camera_info['camera']['view_position']}")
-    print(f"Camera X-axis: {camera_info['camera']['x_axis']}")
-    print(f"Camera Y-axis: {camera_info['camera']['y_axis']}")
-    print(f"Camera Z-axis: {camera_info['camera']['z_axis']}")
+    plydata = PlyData.read(str(ply_path))
+    print(plydata)
+    vtx_texture_obj = plydata.elements[0].properties[9]
+    print(f"Texture property name: {vtx_texture_obj.name}")
+    vtx = plydata.elements[0].data['Texture32']
+    print(f"Texture data shape: {vtx.shape}")
+    vtx = np.array(vtx.tolist(), dtype=np.uint32)
+    #Texture property name: Texture32
+    # Texture data shape: (3186816,)
+    #it is only gray scale image
+    #plot this as 2d image
+    img_width =  plydata.elements[2].data['frame_width'].item()
+    img_height = plydata.elements[2].data['frame_height'].item()
 
-    print(f"\nFrame dimensions: {camera_info['frame_params']['width']} x {camera_info['frame_params']['height']}")
-    print(f"Frame index: {camera_info['frame_params']['frame_index']}")
+    print(f"Image dimensions: {img_width}x{img_height}")
+    reshaped_vtx = vtx.reshape((img_height, img_width))
+    print(f"Reshaped texture data shape: {reshaped_vtx.shape}")
+    # Plot the grayscale image
+    # plt.imshow(reshaped_vtx, cmap='gray')
+    # plt.axis('off')
+    # plt.show()
 
-    print(f"\nCamera matrix (3x3):")
-    print(camera_info['camera_matrix'])
 
-    print(f"\nCamera resolution: {camera_info['camera_resolution']['width']} x {camera_info['camera_resolution']['height']}")
-
-
+   # Analyzujte rozsah hodnot
+    print(f"Value range: min={np.min(vtx)}, max={np.max(vtx)}")
+    print(f"Non-zero values: {np.count_nonzero(vtx)} / {len(vtx)}")
+    print(f"Mean: {np.mean(vtx):.2f}, Std: {np.std(vtx):.2f}")
+    
+    # Vytvořte několik verzí s různými normalizacemi
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+    
+    # 1. Původní obraz
+    axes[0,0].imshow(reshaped_vtx, cmap='gray')
+    axes[0,0].set_title('Original')
+    axes[0,0].axis('off')
+    
+    # 2. Logaritmická škála (pro velký dynamický rozsah)
+    log_vtx = np.log1p(reshaped_vtx)  # log1p = log(1+x) aby se vyhnuli log(0)
+    axes[0,1].imshow(log_vtx, cmap='gray')
+    axes[0,1].set_title('Logarithmic Scale')
+    axes[0,1].axis('off')
+    
+    # 3. Histogram equalization
+    from scipy import ndimage
+    # Jednoduchá histogram equalization pomocí percentilů
+    p2, p98 = np.percentile(vtx[vtx > 0], (2, 98))  # Ignorujte nulové hodnoty
+    hist_eq = np.clip((reshaped_vtx - p2) / (p98 - p2), 0, 1)
+    axes[0,2].imshow(hist_eq, cmap='gray')
+    axes[0,2].set_title('Histogram Equalization (2-98%)')
+    axes[0,2].axis('off')
+    
+    # 4. Min-Max normalizace (pouze non-zero hodnoty)
+    non_zero_mask = reshaped_vtx > 0
+    normalized = reshaped_vtx.astype(float)
+    if np.any(non_zero_mask):
+        min_val = np.min(reshaped_vtx[non_zero_mask])
+        max_val = np.max(reshaped_vtx[non_zero_mask])
+        normalized[non_zero_mask] = (reshaped_vtx[non_zero_mask] - min_val) / (max_val - min_val)
+    axes[1,0].imshow(normalized, cmap='gray')
+    axes[1,0].set_title('Min-Max Normalized (non-zero)')
+    axes[1,0].axis('off')
+    
+    # 5. Gamma korekce
+    gamma = 0.5  # Experimentujte s hodnotami 0.3-2.0
+    gamma_corrected = np.power(normalized, gamma)
+    axes[1,1].imshow(gamma_corrected, cmap='gray')
+    axes[1,1].set_title(f'Gamma Correction (γ={gamma})')
+    axes[1,1].axis('off')
+    
+    # 6. Adaptivní kontrast (CLAHE-like)
+    # Rozdělte obraz na bloky a normalizujte každý zvlášť
+    block_size = 100
+    adaptive = normalized.copy()
+    for i in range(0, img_height, block_size):
+        for j in range(0, img_width, block_size):
+            block = normalized[i:i+block_size, j:j+block_size]
+            if np.max(block) > np.min(block):
+                adaptive[i:i+block_size, j:j+block_size] = (block - np.min(block)) / (np.max(block) - np.min(block))
+    
+    axes[1,2].imshow(adaptive, cmap='gray')
+    axes[1,2].set_title('Adaptive Contrast')
+    axes[1,2].axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Histogram hodnot
+    plt.figure(figsize=(12, 4))
+    
+    plt.subplot(1, 2, 1)
+    plt.hist(vtx[vtx > 0], bins=100, alpha=0.7)
+    plt.title('Histogram of Non-Zero Values')
+    plt.xlabel('Pixel Value')
+    plt.ylabel('Frequency')
+    plt.yscale('log')
+    
+    plt.subplot(1, 2, 2)
+    plt.hist(np.log1p(vtx[vtx > 0]), bins=100, alpha=0.7)
+    plt.title('Histogram of Log Values')
+    plt.xlabel('Log(Pixel Value + 1)')
+    plt.ylabel('Frequency')
+    
+    plt.tight_layout()
+    plt.show()
