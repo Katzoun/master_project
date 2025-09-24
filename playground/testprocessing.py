@@ -7,13 +7,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import struct
 from plyfile import PlyData, PlyElement
-
+from PIL import Image
 print(os.getcwd())
 
 
 if __name__ == "__main__":
 
-    frames_dir = "/home/robolab2/master_project/frames"
+    frames_dir = "/home/robolab2/master_project/frames/"
 
     # List all .ply files in the directory
     ply_files = [f for f in os.listdir(frames_dir) if f.endswith('.ply')]
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     print(f"Found {len(ply_files)} .ply files.")
 
     #open scan_28.ply a visualize 2d image of point cloud from camera perspective
-    ply_name = "scan_28.ply"
+    ply_name = "scan_17.ply"
     ply_path = os.path.join(frames_dir, ply_name)
     print(f"Loading PLY: {ply_path}")
 
@@ -91,6 +91,10 @@ if __name__ == "__main__":
     gamma = 0.5  # Experimentujte s hodnotami 0.3-2.0
     gamma_corrected = np.power(normalized, gamma)
     axes[1,1].imshow(gamma_corrected, cmap='gray')
+    #save gamma corrected image as png
+    gamma_corrected_img = Image.fromarray((gamma_corrected * 255).astype(np.uint8))
+    gamma_corrected_img.save("gamma_corrected.png")
+
     axes[1,1].set_title(f'Gamma Correction (γ={gamma})')
     axes[1,1].axis('off')
     
